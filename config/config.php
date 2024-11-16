@@ -1,12 +1,15 @@
 <?php
 
 define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASSWORD', '');
-define('DB_NAME', 'recetas_db');
+define('DB_USER', 'recetas');
+define('DB_PASSWORD', 'recetas');
+define('DB_NAME', 'recetas_web');
 
 define('BASE_PATH', dirname(__DIR__)); // Raíz del proyecto (C:/xampp/htdocs/mily/Recetas/Recetas)
 define('BASE_URL', '/mily/Recetas/Recetas/'); 
+
+define('CONEXION_DB', '/mily/Recetas/Recetas/helpers/databaseConexion.php')
+
 /*
 *
 *amooooooor arriba hay que cambiar por como tiene la ruta de tu proyecto
