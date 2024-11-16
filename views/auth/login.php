@@ -1,44 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../../public/css/styles.css"></head>
-<body>
- <?php   
-include '../../templates/header.php';
+<?php
+require_once __DIR__ . '/../../config/config.php';
+
+$title = "Iniciar Sesión"; 
+ob_start();
 ?>
-<div class="parent-container">
-    <div class="contenedor-login">
-            <form class="login" action="database-helper/consultas/login.php" style="margin: 0em;" method="POST">
-                <div class="title">
-                    <h1><i class="fa-solid fa-right-to-bracket"></i>      Login</h1>
-                </div>
-                <div class="input-container">
-                    <div class="user-container">
-                        <label for="user-input">User</label>
-                        <input type="text" name="user" maxlength="20" class="user-input" autocomplete="off">
-                    </div>
-                    <div class="password-container">
-                        <label for="password-input">Password</label>
-                            <input type="password" name="password" maxlength="70" class="password-input" autocomplete="off">
-                            <button type="button" class="btn btn-light view-btn"><i class='fa-regular fa-eye-slash eye-icon'></i></button>
-                    </div>
-                    <div class="submit-container">
-                        <button type="submit" class="btn btn-light submit-btn">Enviar</button>
-                    </div>
-                    </div>
-                    <div class="imagen-login">            
-                        <img class="login-img" src="assets/animations/gato2.gif" type="video/gif">
-                    </div>
-            </form>
-        </div>
+
+<div class="container">
+    <!-- Login Form -->
+    <div id="login-form" class="form-container active">
+        <h2>Iniciar Sesión</h2>
+        <form>
+            <label for="email">Correo Electrónico</label>
+            <input type="email" id="email" placeholder="Ingresa tu correo" required>
+            
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" placeholder="Ingresa tu contraseña" required>
+            
+            <label>
+                <input type="checkbox"> Recordarme
+            </label>
+            
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+        <p class="toggle-btn" onclick="toggleForms()">¿No tienes una cuenta? Regístrate aquí</p>
+    </div>
+
+    <!-- Register Form -->
+    <div id="register-form" class="form-container">
+        <h2>Registrarse</h2>
+        <form>
+            <label for="name">Nombre Completo</label>
+            <input type="text" id="name" placeholder="Ingresa tu nombre completo" required>
+            
+            <label for="email-register">Correo Electrónico</label>
+            <input type="email" id="email-register" placeholder="Ingresa tu correo" required>
+            
+            <label for="password-register">Contraseña</label>
+            <input type="password" id="password-register" placeholder="Crea una contraseña" required>
+            
+            <button type="submit">Registrarse</button>
+        </form>
+        <p class="toggle-btn" onclick="toggleForms()">¿Ya tienes una cuenta? Inicia Sesión aquí</p>
+    </div>
 </div>
 
 
 <?php
-include '../../templates/footer.php';
-?>   
-</body>
-</html>
+$content = ob_get_clean(); 
+include BASE_PATH . '/views/layout.php'; 
+
