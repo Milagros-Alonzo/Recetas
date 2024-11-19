@@ -25,6 +25,7 @@ class user {
         $stmt = $pdo->prepare($sql);
 
         // Encripta la contraseña
+        
         $hashPassword = password_hash($this->contrasena, PASSWORD_BCRYPT);
 
         $stmt->execute([
@@ -34,10 +35,24 @@ class user {
             ':rol' => $this->rol,
         ]);
 
-        closeConnection($pdo);
         return $pdo->lastInsertId();
     }
 
+
+    public function findUserByEmail($email)
+    {
+        $pdo = getConnection();
+
+        $sql = "SELECT * FROM usuarios WHERE email = :email LIMIT 1";
+
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->execute([
+            ':email' => $email
+        ]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC); // devuelve toda la info del usuario
+    }
 
 
  // Constructor

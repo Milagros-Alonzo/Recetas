@@ -3,6 +3,21 @@ require_once __DIR__ . '/../../config/config.php';
 
 $title = "Iniciar Sesión"; 
 ob_start();
+
+session_start();
+if(isset($_SESSION['mensaje'])){
+    $mensaje = $_SESSION['mensaje'];
+}else {
+    $mensaje = '';
+}
+
+if(isset($_SESSION['user'])){
+    if($_SESSION['es_admin'] === true){
+        //header("location: pages/adminHome.php");
+    }else {
+        //header("location: pages/Home.php");
+    }
+}
 ?>
 
 <div class="container">
@@ -44,6 +59,17 @@ ob_start();
     </div>
 </div>
 
+<script>
+    mensaje = <?php echo json_encode($mensaje); ?>;
+    console.log(mensaje);
+    if(mensaje) {
+        alert(mensaje)
+
+        <?php
+            $_SESSION['mensaje'] = '';
+        ?>
+    }
+</script>
 
 <?php
 $content = ob_get_clean(); 

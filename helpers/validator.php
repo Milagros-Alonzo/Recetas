@@ -15,7 +15,7 @@ class Validator
             throw new Exception("El correo electrónico no es válido.");
         }
 
-        if (strlen($password) < 6) {
+        if (strlen($password) < 8) {
             throw new Exception("La contraseña debe tener al menos 6 caracteres.");
         }
 
@@ -25,6 +25,20 @@ class Validator
             'email' => $email,
             'password' => $password,
             'rol' => $rol
+        ];
+    }
+
+    public static function validateLoginData($data) {
+        $email = filter_var(trim($data['email']), FILTER_VALIDATE_EMAIL);
+        $password = trim($data['password']);
+
+        if (!$email) {
+            throw new Exception("El correo electrónico no es válido.");
+        }
+
+        return [
+            'email' => $email,
+            'password' => $password,
         ];
     }
 }
