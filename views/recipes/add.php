@@ -12,7 +12,7 @@ include BASE_PATH . '/include/session/createSession.php';
 <div class="form-container-receta">
         <h1>Agregar de Recetas</h1>
         <hr>
-        <form  id="recipeForm">
+        <form  id="recipeForm" action="<?php echo BASE_URL . '/controllers/RecipeController.php'; ?>" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="titulo">Título</label>
                 <input type="text" id="titulo" name="titulo" maxlength="100" required>
@@ -22,6 +22,11 @@ include BASE_PATH . '/include/session/createSession.php';
                 <label for="descripcion">Descripción</label>
                 <textarea id="descripcion" name="descripcion" required></textarea>
                 <div class="error-message" id="descripcionError"></div>
+            </div>
+            <div class="form-group">
+                <label for="pasos">Pasos:</label>
+                <textarea id="pasos" name="pasos" required></textarea>
+                <div class="error-message" id="pasosError"></div>
             </div>
             <div class="form-group">
                 <label for="tiempo">Tiempo</label>
@@ -35,7 +40,7 @@ include BASE_PATH . '/include/session/createSession.php';
 
             </div>
             <div class="checkbox-group" id="checkboxGroup">
-                <!-- Los checkboxes aparecerán aquí -->
+                <!-- Los ingredientes aparecerán aquí -->
             </div>
             <div class="form-group">
                 <label for="imagen">Imagen</label>
@@ -46,7 +51,7 @@ include BASE_PATH . '/include/session/createSession.php';
                 </div>
             </div>
             <div class="form-actions">
-                <button type="submit">Guardar Receta</button>
+                <button type="submit" name="action" value="register">Guardar Receta</button>
             </div>
         </form>
     </div>
@@ -54,6 +59,15 @@ include BASE_PATH . '/include/session/createSession.php';
 
 
     <script>
+    mensaje = <?php echo json_encode($mensaje); ?>;
+    console.log(mensaje);
+    if(mensaje) {
+        alert(mensaje)
+        <?php
+            $_SESSION['mensaje'] = '';
+        ?>
+    }
+
         // Validación sencilla con JavaScript
         document.getElementById('recipeForm').addEventListener('submit', function (event) {
             let isValid = true;
@@ -108,7 +122,8 @@ include BASE_PATH . '/include/session/createSession.php';
 
             const input = document.createElement('input');
 
-            input.disabled = true;
+            input.readOnly = true;
+            input.type = 'text';
             input.classList.add('input-ingrediente')
             input.name = 'ingrediente[]';
             input.value = inputIngrediente.value

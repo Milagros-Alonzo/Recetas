@@ -16,7 +16,6 @@ CREATE TABLE recetas (
     descripcion TEXT NOT NULL,
     pasos text not NULL,
     tiempo VARCHAR(50) NOT NULL,
-    ingredientes TEXT NOT NULL,
     imagen VARCHAR(255) DEFAULT NULL,
     FOREIGN KEY (user_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );

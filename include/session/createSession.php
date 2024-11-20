@@ -1,9 +1,9 @@
 <?php
 session_start(); // Inicia la sesión
-if(isset($_SESSION['message'])){
-    $message = $_SESSION['message'];
+if(isset($_SESSION['mensaje'])){
+    $mensaje = $_SESSION['mensaje'];
 }else {
-    $message = null;
+    $mensaje = null;
 }
 
 if (!isset($_SESSION['user'])) {
