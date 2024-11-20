@@ -6,53 +6,79 @@ ob_start(); // Inicia el almacenamiento en búfer de salida
 // incluye la creacion de la session y la revificacion de ella
 include BASE_PATH . '/include/session/createSession.php';
 ?>
-
-
-    <main>
-        <div class="recipe-container" id="recipeContainer">
-            <!-- Las tarjetas se renderizan aquí dinámicamente -->
+    <div class="main-content">
+        <div class="container-titulo">
+            <h1 class="titulo-pagina">Página de Recetas</h1>
+            <div class="search-box">
+                <button class="btn-search"><i class="fas fa-search"></i></button>
+                <input type="text" class="input-search" id="searchInput" placeholder="Escriba el Nombre o Cedula para buscar...">
+                <div id="results">
+                </div>
+            </div>
+            <hr>
         </div>
-    </main>
+        <div class="container-receta">
+
+            
+        </div>
+    </div>
+    
 
     <script>
             const recetas = [
         {
             "id": 1,
-            "title": "Tacos de Pollo",
-            "description": "Deliciosos tacos con pollo marinado y vegetales frescos.",,
-            "author": "Juan Pérez"
+            "author": "mi amor",
+            "titulo": "Tacos de Pollo",
+            "description": "Deliciosos tacos con pollo marinado y vegetales frescos.",
+            "tiempo": "30 minutos",
+            "ingredientes": "[30gm de tomtate ,2 cucharas de mantequilla]",
+            "imagen" : "path"
         },
         {
             "id": 2,
-            "title": "Ensalada César",
+            "titulo": "Ensalada César",
             "description": "Clásica ensalada César con aderezo casero.",
-            "image": "https://via.placeholder.com/300x200?text=Ensalada",
+            "tiempo": "1 hora",
             "author": "María López"
         },
         {
             "id": 3,
-            "title": "Pasta Alfredo",
+            "titulo": "Pasta Alfredo",
             "description": "Pasta cremosa con salsa Alfredo y queso parmesano.",
-            "image": "https://via.placeholder.com/300x200?text=Pasta",
+            "tiempo": "40 minutos",
             "author": "Carlos Gómez"
-        }
+        },
+        {
+            "id": 4,
+            "titulo": "Ensalada César",
+            "description": "Clásica ensalada César con aderezo casero.",
+            "tiempo": "1 hora",
+            "author": "María López"
+        },
+        {
+            "id": 5,
+            "titulo": "Ensalada César",
+            "description": "Clásica ensalada César con aderezo casero.",
+            "tiempo": "1 hora",
+            "author": "María López"
+        },
     ];
-    console.log(recetas)
 
     // Renderizar recetas
     function cargarRecetas(recetas) {
-        console.log('hola')
-        const container = document.getElementById('recipeContainer');
+        console.log(recetas)
+
+        const container = document.querySelector('.container-receta');
         container.innerHTML = recetas.map(recipe => `
             <div class="card">
-                <img src="${recipe.image}" alt="${recipe.title}">
-                <div class="card-content">
-                    <h2 class="card-title">${recipe.title}</h2>
-                    <p class="card-description">${recipe.description}</p>
-                    <div class="card-footer">
-                        <span>Autor: ${recipe.author}</span>
-                    </div>
+                <div class="titulo"><Strong>${recipe.titulo}</Strong></div>
+                <hr>
+                <div class="imagen">
+                    <img class="img-index" src="<?php echo BASE_URL . '/public/img/gato.png'; ?>" alt="Receta 1">
                 </div>
+                <div class="autor">${recipe.author}</div>
+                <div class="tiempo">${recipe.tiempo}</div>
             </div>
         `).join('');
     }
