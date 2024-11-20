@@ -3,8 +3,12 @@ require_once __DIR__ . '/config/config.php';
 $title = "Página de Recetas";
 ob_start(); // Inicia el almacenamiento en búfer de salida
 
+
+
+
 // incluye la creacion de la session y la revificacion de ella
 include BASE_PATH . '/include/session/createSession.php';
+
 ?>
     <div class="main-content">
         <div class="container-titulo">
@@ -16,54 +20,49 @@ include BASE_PATH . '/include/session/createSession.php';
                 </div>
             </div>
             <hr>
-        </div>
+        </div>        
         <div class="container-receta">
 
-            
+
         </div>
     </div>
     
 
     <script>
-            const recetas = [
-        {
-            "id": 1,
-            "author": "mi amor",
-            "titulo": "Tacos de Pollo",
-            "description": "Deliciosos tacos con pollo marinado y vegetales frescos.",
-            "tiempo": "30 minutos",
-            "ingredientes": "[30gm de tomtate ,2 cucharas de mantequilla]",
-            "imagen" : "path"
-        },
-        {
-            "id": 2,
-            "titulo": "Ensalada César",
-            "description": "Clásica ensalada César con aderezo casero.",
-            "tiempo": "1 hora",
-            "author": "María López"
-        },
-        {
-            "id": 3,
-            "titulo": "Pasta Alfredo",
-            "description": "Pasta cremosa con salsa Alfredo y queso parmesano.",
-            "tiempo": "40 minutos",
-            "author": "Carlos Gómez"
-        },
-        {
-            "id": 4,
-            "titulo": "Ensalada César",
-            "description": "Clásica ensalada César con aderezo casero.",
-            "tiempo": "1 hora",
-            "author": "María López"
-        },
-        {
-            "id": 5,
-            "titulo": "Ensalada César",
-            "description": "Clásica ensalada César con aderezo casero.",
-            "tiempo": "1 hora",
-            "author": "María López"
-        },
-    ];
+    mensaje = <?php echo json_encode($mensaje ?? ''); ?>;
+    console.log(mensaje);
+    if(mensaje) {
+        alert(mensaje)
+        <?php
+            $_SESSION['mensaje'] = '';
+        ?>
+    }
+
+
+    async function fetchRecetas() {
+        try {
+            const response = await fetch("<?php echo BASE_URL . '/controllers/RecipeController.php?action=getRecipe' ?>", {
+                method: 'GET',
+            });
+
+            if (!response.ok) {
+                throw new Error('Error en la solicitud');
+            }
+
+            const result = await response.json();
+
+            if (result.success) {
+                console.log('Recetas:', result.data);
+                cargarRecetas(result.data);
+            } else {
+                console.error('Error:', result.message);
+            }
+        } catch (error) {
+            console.error('Error al obtener las recetas:', error);
+        }
+    }
+
+            const recetas = [];
 
     // Renderizar recetas
     function cargarRecetas(recetas) {
@@ -75,16 +74,17 @@ include BASE_PATH . '/include/session/createSession.php';
                 <div class="titulo"><Strong>${recipe.titulo}</Strong></div>
                 <hr>
                 <div class="imagen">
-                    <img class="img-index" src="<?php echo BASE_URL . '/public/img/gato.png'; ?>" alt="Receta 1">
+                    <img class="img-index" src="<?php echo BASE_URL; ?>/public/img/${recipe.imagen}" alt="Receta 1">
                 </div>
-                <div class="autor">${recipe.author}</div>
+                <div class="autor">${recipe.nombre_usuario}</div>
                 <div class="tiempo">${recipe.tiempo}</div>
             </div>
         `).join('');
     }
 
     // Llamar a la función para renderizar
-    document.addEventListener('DOMContentLoaded',  cargarRecetas(recetas));
+    
+    document.addEventListener('DOMContentLoaded',  fetchRecetas());
     </script>
 
 <?php

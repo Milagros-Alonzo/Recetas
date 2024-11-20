@@ -65,7 +65,7 @@ if(isset($_SESSION['mensaje'])){
     console.log(mensaje);
     if(mensaje) {
         alert(mensaje)
-
+        mensaje = '';
         <?php
             $_SESSION['mensaje'] = '';
         ?>

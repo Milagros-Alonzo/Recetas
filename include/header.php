@@ -1,7 +1,9 @@
 <header>
+    
     <nav>
         <ul>
             <?php
+            
             // Verificar si el usuario está logueado
             if (isset($_SESSION['user'])): ?>
                 <?php if ($_SESSION['es_admin'] === 'admin'): ?>
