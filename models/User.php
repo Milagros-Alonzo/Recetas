@@ -11,7 +11,17 @@ class user {
 
 
 
-    /*
+ // Constructor
+ public function __construct($nombre = null, $email = null,  $contrasena = null, $rol = 'usuario', $token_sesion = null)
+ {
+     $this->nombre = $nombre;
+     $this->email = $email;
+     $this->contrasena = $contrasena;
+     $this->rol = $rol;
+     $this->token_sesion = $token_sesion;
+ }
+ 
+     /*
     *
     *las consultas a base de datos
     *
@@ -53,27 +63,6 @@ class user {
 
         return $stmt->fetch(PDO::FETCH_ASSOC); // devuelve toda la info del usuario
     }
-
-
- // Constructor
- public function __construct($nombre = null, $email = null,  $contrasena = null, $rol = 'usuario', $token_sesion = null)
- {
-     $this->nombre = $nombre;
-     $this->email = $email;
-     $this->contrasena = $contrasena;
-     $this->rol = $rol;
-     $this->token_sesion = $token_sesion;
- }public function getUserByEmail($email)
- {
-     $pdo = getConnection(); // Obtiene la conexión a la base de datos
- 
-     $sql = "SELECT * FROM usuarios WHERE email = :email LIMIT 1";
-     $stmt = $pdo->prepare($sql);
-     $stmt->execute([':email' => $email]);
- 
-     return $stmt->fetch(PDO::FETCH_ASSOC); // Devuelve toda la información del usuario
- }
- 
  
  public function savePasswordResetToken($userId, $token)
  {

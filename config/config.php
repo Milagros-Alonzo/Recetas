@@ -10,11 +10,4 @@ define('BASE_URL', '/PROYECTO_FINAL/Recetas');
 
 define('CONEXION_DB', '/PROYECTO_FINAL/Recetas/helpers/databaseConexion.php');
 
-/*
-cambiar las rutas de las variables 
-
-define('BASE_URL', '/mily/Recetas'); 
-define('CONEXION_DB', '/mily/Recetas/helpers/databaseConexion.php');
-*/
-
 ?>
