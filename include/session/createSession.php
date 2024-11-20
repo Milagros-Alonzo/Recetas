@@ -1,4 +1,16 @@
 <?php
+session_start(); // Inicia la sesión
+if(isset($_SESSION['message'])){
+    $message = $_SESSION['message'];
+}else {
+    $message = null;
+}
+
+if (!isset($_SESSION['user'])) {
+    header('location: ' . BASE_URL . "/views/auth/login.php"); // Redirige al usuario a la página de login
+    exit();
+}
+
 // Tiempo de expiración en segundos (5 minutos)
 $session_timeout = 300; // 5 * 60 segundos
 
