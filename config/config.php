@@ -8,7 +8,7 @@ define('DB_NAME', 'recetas_web');
 define('BASE_PATH', dirname(__DIR__)); 
 define('BASE_URL', '/mily/Recetas'); 
 
-define('CONEXION_DB', '/mily/Recetas/helpers/databaseConexion.php')
+define('CONEXION_DB', '/mily/Recetas/helpers/databaseConexion.php');
 
 /*
 *
