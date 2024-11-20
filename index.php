@@ -3,23 +3,9 @@ require_once __DIR__ . '/config/config.php';
 $title = "Página de Recetas";
 ob_start(); // Inicia el almacenamiento en búfer de salida
 
-session_start(); // Inicia la sesión
-if(isset($_SESSION['message'])){
-    $message = $_SESSION['message'];
-}else {
-    $message = null;
-}
-
-if (!isset($_SESSION['user'])) {
-    header('location: ' . BASE_URL . "/views/auth/login.php"); // Redirige al usuario a la página de login
-    exit();
-}
-
-// incluye la creacion de la session
-include BASE_PATH . '/helpers/createSessionTimer.php';
+// incluye la creacion de la session y la revificacion de ella
+include BASE_PATH . '/include/session/createSession.php';
 ?>
-
-
 
 
 <section class="title">
