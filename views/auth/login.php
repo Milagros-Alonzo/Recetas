@@ -29,6 +29,10 @@ if(isset($_SESSION['mensaje'])){
             
             <button type="submit" name="action" value="login">Iniciar Sesión</button>
         </form>
+         <!-- Enlace para recuperar contraseña -->
+         <p class="forgot-password">
+            <a href="forgot_password.php">¿Olvidaste tu contraseña?</a>
+        </p>
         <p class="toggle-btn" onclick="toggleForms()">¿No tienes una cuenta? Regístrate aquí</p>
     </div>
 
