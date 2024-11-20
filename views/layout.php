@@ -23,6 +23,6 @@ require_once __DIR__ . '/../config/config.php';
 
     <?php include BASE_PATH . '/include/footer.php'; ?>
 
-    <script src="<?php echo  BASE_URL . ' /public/js/scripts.js'; ?>"></script>
+    <script src="<?php echo  BASE_URL . '/public/js/scripts.js'; ?>"></script>
 </body>
 </html>

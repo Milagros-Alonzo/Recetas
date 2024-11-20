@@ -43,34 +43,6 @@ nav a:hover {
 }
 
 
-.title {
-    padding: 60px 0;
-    text-align: center;
-}
-.title-text h1 {
-    font-size: 3em;
-}
-.title .btn {
-    background-color: #ff6347;
-    color: #fff;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-}
-.featured-recipes {
-    padding: 40px 20px;
-}
-.recipe-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-}
-.recipe-item img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-}
-
 
 .parent-container {
     display: flex;
@@ -138,6 +110,64 @@ h2 {
 }
 .toggle-btn:hover {
     text-decoration: underline;
+}
+
+
+/*
+*
+*
+*index 
+*
+*/
+
+.recipe-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 1rem;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    margin: 0 0 0.5rem 0;
+    color: #4CAF50;
+}
+
+.card-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: #999;
 }
 
 @media (width <= 1050px) {
