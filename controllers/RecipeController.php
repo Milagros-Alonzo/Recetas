@@ -45,7 +45,7 @@ class RecipeController {
                 // Subir imagen (si existe)
                 $uniqueName = null;
                 if (!empty($imagen['tmp_name'])) {
-                    $uniqueName = Validator::uploadImage($imagen, $_SERVER['DOCUMENT_ROOT'] . '/mily/Recetas/public/img/');
+                    $uniqueName = Validator::uploadImage($imagen, $_SERVER['DOCUMENT_ROOT'] . '/PROYECTO_FINAL/Recetas/public/img/');
                 }
 
    
