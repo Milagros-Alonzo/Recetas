@@ -104,6 +104,47 @@
                 exit;
             }
         }
+
+        //funcion para recuperar contraseñas//
+        public function forgotPassword($email)
+{
+echo "entro a la funcion";
+    require_once __DIR__ . '/../helpers/TokenGenerator.php'; // Para generar tokens únicos
+    session_start();
+    
+    try {
+        // Verificar si el correo existe en la base de datos
+        $user = $this->usuarioModel->findUserByEmail($email);
+        if (!$user) {
+            $_SESSION['mensaje'] = 'El correo no está registrado.';
+            header('Location: ../../views/auth/forgot_password.php');
+            exit();
+        }
+
+        // Generar un token único
+        $token = TokenGenerator::generate();
+
+        // Guardar el token en la base de datos asociado al usuario
+        $this->usuarioModel->savePasswordResetToken($user['id'], $token);
+
+        // Enviar el correo al usuario con el enlace de recuperación
+        $resetLink = BASE_URL . "/views/auth/reset_password.php?token=" . $token;
+        $subject = "Recuperación de contraseña";
+        $body = "Hola, haz clic en el siguiente enlace para restablecer tu contraseña: $resetLink";
+
+        mail($email, $subject, $body);
+
+        $_SESSION['mensaje'] = 'Hemos enviado un enlace de recuperación a tu correo.';
+        header('Location: ../../views/auth/login.php');
+        exit();
+
+    } catch (Exception $e) {
+        $_SESSION['mensaje'] = 'Hubo un error al procesar tu solicitud. Inténtalo más tarde.';
+        header('Location: ../../views/auth/forgot_password.php');
+        exit();
+    }
+}
+
         
     }
    
@@ -121,4 +162,4 @@
         } elseif ($_POST['action'] === 'login') {
             $controller->login($_POST);
         }
-    }  
+    } 
