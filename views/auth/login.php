@@ -10,10 +10,10 @@ if(isset($_SESSION['mensaje'])){
 }else {
     $mensaje = '';
 }
-
 ?>
 
-<div class="container">
+
+<div class="container-login">
     <!-- Login Form -->
     <div id="login-form" class="form-container active">
         <h2>Iniciar Sesión</h2>
@@ -53,6 +53,14 @@ if(isset($_SESSION['mensaje'])){
 </div>
 
 <script>
+
+    function toggleForms() {
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+
+        loginForm.classList.toggle('active');
+        registerForm.classList.toggle('active');
+    }
     mensaje = <?php echo json_encode($mensaje); ?>;
     console.log(mensaje);
     if(mensaje) {

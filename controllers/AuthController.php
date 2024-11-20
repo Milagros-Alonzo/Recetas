@@ -30,11 +30,11 @@
 
                 if ($id) {
                     // Crear sesión para el usuario registrado
-                    $_SESSION['user_id'] = $id;
+                    $_SESSION['user'] = $id;
                     $_SESSION['user_name'] = $datosValidados['nombre'];
                     $_SESSION['user_email'] = $datosValidados['email'];
-                    $_SESSION['user_role'] = $datosValidados['rol'];
-        
+                    $_SESSION['es_admin'] = $datosValidados['rol'];
+
                     // Devuelve un éxito indicando que la sesión se inició
                     return header('location: ' . BASE_URL . '/index.php');
                 } else {
