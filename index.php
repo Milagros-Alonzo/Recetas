@@ -19,8 +19,7 @@ include BASE_PATH . '/include/session/createSession.php';
         {
             "id": 1,
             "title": "Tacos de Pollo",
-            "description": "Deliciosos tacos con pollo marinado y vegetales frescos.",
-            "image": "https://via.placeholder.com/300x200?text=Tacos",
+            "description": "Deliciosos tacos con pollo marinado y vegetales frescos.",,
             "author": "Juan Pérez"
         },
         {
