@@ -11,7 +11,7 @@ include BASE_PATH . '/include/session/createSession.php';
             <h1 class="titulo-pagina">Página de Recetas</h1>
             <div class="search-box">
                 <button class="btn-search"><i class="fas fa-search"></i></button>
-                <input type="text" class="input-search" id="searchInput" placeholder="Escriba el Nombre o Cedula para buscar...">
+                <input type="text" class="input-search" id="searchInput" placeholder="Escriba recetas o ingredientes para buscar...">
                 <div id="results">
                 </div>
             </div>
