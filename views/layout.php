@@ -14,7 +14,6 @@ require_once __DIR__ . '/../config/config.php';
 </head>
 <body>
     <?php include BASE_PATH . '/templates/header.php'; ?>
-
     <div class="parent-container">
         <div class="main-content">
             <?php echo $content ?? '<p>Contenido no disponible</p>'; ?>
