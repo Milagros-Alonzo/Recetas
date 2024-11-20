@@ -63,8 +63,34 @@ class user {
      $this->contrasena = $contrasena;
      $this->rol = $rol;
      $this->token_sesion = $token_sesion;
+ }public function getUserByEmail($email)
+ {
+     $pdo = getConnection(); // Obtiene la conexión a la base de datos
+ 
+     $sql = "SELECT * FROM usuarios WHERE email = :email LIMIT 1";
+     $stmt = $pdo->prepare($sql);
+     $stmt->execute([':email' => $email]);
+ 
+     return $stmt->fetch(PDO::FETCH_ASSOC); // Devuelve toda la información del usuario
  }
-
+ 
+ 
+ public function savePasswordResetToken($userId, $token)
+ {
+     $pdo = getConnection(); // Obtiene la conexión a la base de datos
+ 
+     $sql = "UPDATE usuarios 
+             SET reset_token = :reset_token, reset_token_expire = DATE_ADD(NOW(), INTERVAL 1 HOUR) 
+             WHERE id = :id";
+     $stmt = $pdo->prepare($sql);
+     $stmt->execute([
+         ':reset_token' => $token,
+         ':id' => $userId
+     ]);
+ 
+     return $stmt->rowCount() > 0; // Devuelve true si se actualizó al menos una fila
+ }
+ 
  // Getters y Setters
 
  public function getNombre() { return $this->nombre; }
