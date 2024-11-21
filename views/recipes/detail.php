@@ -23,7 +23,7 @@ if ($id === 0) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Detalles de la Receta - <?php echo htmlspecialchars($title); ?></title>
+    <h1>Detalles de la Receta - <?php echo htmlspecialchars($title); ?></h1>
     <script>
     const BASE_URL = '<?php echo BASE_URL; ?>';
 </script>
