@@ -48,6 +48,6 @@ $mensaje = SessionManager::getMessage();
 <?php
 
 //incluye el script para la actualizacion de la session y que se mantenga abierta
-include BASE_PATH . '/public/js/sessionScript.php';
+//include BASE_PATH . '/public/js/sessionScript.php';
 $content = ob_get_clean(); // Guarda el contenido en $content
 include BASE_PATH . '/views/layout.php'; // Incluye la plantilla principal

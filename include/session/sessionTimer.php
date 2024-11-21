@@ -2,7 +2,7 @@
 session_start();
 
 // Configura el tiempo máximo de inactividad (en segundos)
-$session_timeout = 300; // 5 minutos
+$session_timeout = 1000; // 5 minutos
 
 if (isset($_SESSION['LAST_ACTIVITY'])) {
     // Comprueba si la sesión ha expirado
