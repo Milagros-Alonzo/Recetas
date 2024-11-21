@@ -16,6 +16,7 @@ $row = $result->fetch_assoc();
 if($result->num_rows > 0){
   $mail = new PHPMailer(true);
 
+  
 try {
     $mail->isSMTP();
     $mail->Host       = 'smtp-mail.outlook.com';
