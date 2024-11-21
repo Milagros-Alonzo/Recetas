@@ -474,11 +474,20 @@ h2 {
 }
 
 /* ------------ Estilo Detalle Receta ------------ */
+
+.detaller-receta-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
 .detalle-receta {
-    max-width: 800px;
-    margin: 50px auto;
+    width: 80%;
+    height: fit-content;
+    margin: 20px auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: #f4f4f4;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: left;
@@ -492,13 +501,11 @@ h2 {
     color: #333;
     text-align: center;
 }
+.detalle-receta .imagen {
+    height: 500px;
+}
 
 .detalle-receta img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin: 20px 0;
     transition: transform 0.3s;
 }
 

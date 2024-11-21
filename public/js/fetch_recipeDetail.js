@@ -1,9 +1,14 @@
-async function fetchRecetaDetail(id, BASE_URL) {
+/*
+* es muy importante declarar la cosnt id
+*si se quiere obtener las recetas por id o no se pone null
+*
+*/
+console.log('hola')
 
-    try {
-        const url = `${BASE_URL}/controllers/RecipeController.php?action=getRecipe&id=${id}`;
-        console.log('Fetching URL:', url);
-
+async function fetchRecetaDetail(id) {
+    console.log(id)
+    try { 
+        const url = `<?php echo BASE_URL . '/controllers/RecipeController.php?action=getRecipeDetail&id=${id}'; ?>`;
         const response = await fetch(url, {
             method: 'GET',
         });
@@ -16,7 +21,7 @@ async function fetchRecetaDetail(id, BASE_URL) {
 
         if (result.success) {
             console.log('Detalle de la Receta:', result.data);
-            cargarRecetaDetail(result.data[0]); // Asegúrate de acceder al primer elemento si es un array de objetos
+            cargarRecetaDetail(result.data); // Asegúrate de acceder al primer elemento si es un array de objetos
         } else {
             console.error('Error:', result.message);
         }
@@ -31,40 +36,23 @@ function cargarRecetaDetail(receta) {
         console.error("La receta no se encontró.");
         return;
     }
-
+    const recetaFinal = receta[0];
+    const ingredienteFinal = receta[1]
+    console.log(recetaFinal)
+    console.log(receta[1])
     const container = document.querySelector('.detalle-receta');
 
     container.innerHTML = `
-        <h1>${receta.titulo ?? 'Título no disponible'}</h1>
-        <p><strong>Tiempo de preparación:</strong> ${receta.tiempo ?? 'No especificado'}</p>
-        <p><strong>Descripción:</strong> ${receta.descripcion ?? 'No disponible'}</p>
-        <p><strong>Pasos:</strong> ${receta.pasos ?? 'No especificados'}</p>
-        <p><strong>Ingredientes:</strong> ${receta.ingredientes ?? 'No especificados'}</p>
-       <?php if (!empty(\$receta['imagen'])): ?>
-            <img src="<?php echo BASE_URL; ?>/public/img/<?php echo htmlspecialchars(\$receta['imagen']); ?>" alt="Imagen de <?php echo htmlspecialchars(\$receta['titulo']); ?>">
-        <?php endif; ?>
-
-    `;
-}
-
-
-
-// Renderizar detalle de la receta
-function cargarRecetaDetail(receta) {
-    const container = document.querySelector('.detalle-receta');
-    container.innerHTML = `
-        <h1>${receta.titulo}</h1>
-        <p><strong>Tiempo de preparación:</strong> ${receta.tiempo}</p>
-        <p><strong>Descripción:</strong> ${receta.descripcion}</p>
-        <p><strong>Pasos:</strong> ${receta.pasos}</p>
-        <p><strong>Ingredientes:</strong> ${receta.ingredientes}</p>
-      <?php if (!empty($receta['imagen']) && file_exists(BASE_PATH . '/public/img/' . $receta['imagen'])): ?>
-    <img src="<?php echo BASE_URL; ?>/public/img/<?php echo htmlspecialchars($receta['imagen']); ?>" alt="Imagen de <?php echo htmlspecialchars($receta['titulo']); ?>">
-<?php else: ?>
-    <p>Imagen no disponible</p>
-<?php endif; ?>
-
-<button onclick="window.location.href='<?php echo BASE_URL; ?>../../index.php'" class="btn-volver">Volver al Inicio</button>
+        <h1>Receta: ${recetaFinal[0]['titulo'] ?? 'Título no disponible'}</h1>
+        <div class="imagen">
+            <img class="img-index" src="<?php echo BASE_URL; ?>/public/img/${recetaFinal[0]['imagen']}" alt="Receta ${recetaFinal[0]['titulo']}">
+        </div>
+        <p><strong>Tiempo de preparación:</strong> ${recetaFinal[0]['tiempo'] ?? 'No especificado'}</p>
+        <p><strong>Descripción:</strong> ${recetaFinal[0]['descripcion'] ?? 'No disponible'}</p>
+        <p><strong>Pasos:</strong> ${recetaFinal[0]['pasos'] ?? 'No especificados'}</p>
+        <p><strong>Ingredientes:</strong> 
+            ${ingredienteFinal.map(r => r.ingrediente).join(', ') || 'No especificados'}
+        </p>
 
     `;
 }

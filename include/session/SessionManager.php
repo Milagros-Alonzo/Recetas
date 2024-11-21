@@ -1,7 +1,7 @@
 <?php
 class SessionManager
 {
-    private static $session_timeout = 10; // 5 minutos
+    private static $session_timeout = 1000; // 5 minutos
 
     // Inicia la sesión si no está iniciada
     public static function startSession()

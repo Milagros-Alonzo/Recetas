@@ -37,10 +37,19 @@ class Recipe
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getById($id)
+    public static function getByUserId($id)
     {
         $pdo = getConnection();
         $stmt = $pdo->prepare("SELECT * FROM recetas WHERE user_id = :id");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    public static function getById($id)
+    {
+        $pdo = getConnection();
+        $stmt = $pdo->prepare("SELECT * FROM recetas WHERE id = :id");
         $stmt->execute(['id' => $id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

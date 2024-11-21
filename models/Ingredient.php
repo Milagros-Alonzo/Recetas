@@ -17,7 +17,7 @@ class Ingredient
 
 
     // Métodos para la base de datos
-    public static function getAllByRecetaId($receta_id)
+    public static function getByRecetaId($receta_id)
     {
         $pdo = getConnection();
         $stmt = $pdo->prepare("SELECT * FROM ingredientes WHERE receta_id = :receta_id");
