@@ -15,7 +15,7 @@ if(isset($_SESSION['mensaje'])){
 
 <div class="container-login">
     <h2>Recuperar Contraseña</h2>
-    <form action="../../../controllers/AuthController.php" method="POST">
+    <form action="../../../controllers/recoveryController.php" method="POST">
         <label for="email">Correo Electrónico</label>
         <input type="email" id="email" name="email" placeholder="Ingresa tu correo" required>
 
