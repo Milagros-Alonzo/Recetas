@@ -34,19 +34,17 @@ async function fetchRecetas() {
     }
 }
 
-const recetas = [];
-
 // Renderizar recetas
 function cargarRecetas(recetas) {
-    console.log(recetas)
+    console.log(recetas);
 
     const container = document.querySelector('.container-receta');
     container.innerHTML = recetas.map(recipe => `
-        <div class="card">
-            <div class="titulo"><Strong>${recipe.titulo}</Strong></div>
+        <div class="receta-contenedor" onclick="window.location.href='<?php echo BASE_URL; ?>/views/recipes/detail.php?id=${recipe.id}'">
+            <div class="titulo"><strong>${recipe.titulo}</strong></div>
             <hr>
             <div class="imagen">
-                <img class="img-index" src="<?php echo BASE_URL; ?>/public/img/${recipe.imagen}" alt="Receta 1">
+                <img class="img-index" src="<?php echo BASE_URL; ?>/public/img/${recipe.imagen}" alt="Receta ${recipe.titulo}">
             </div>
             <div class="autor">${recipe.nombre_usuario}</div>
             <div class="tiempo">${recipe.tiempo}</div>
@@ -55,5 +53,5 @@ function cargarRecetas(recetas) {
 }
 
 // Llamar a la función para renderizar
+document.addEventListener('DOMContentLoaded', fetchRecetas);
 
-document.addEventListener('DOMContentLoaded',  fetchRecetas());
