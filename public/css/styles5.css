@@ -473,5 +473,86 @@ h2 {
     }
 }
 
+/* ------------ Estilo Detalle Receta ------------ */
+.detalle-receta {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    line-height: 1.6;
+    font-size: 18px;
+}
+
+.detalle-receta h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.detalle-receta img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 20px 0;
+    transition: transform 0.3s;
+}
+
+.detalle-receta img:hover {
+    transform: scale(1.05);
+}
+
+.detalle-receta p {
+    margin-bottom: 15px;
+    font-weight: 500;
+    color: #444;
+}
+
+.detalle-receta p strong {
+    font-weight: bold;
+    color: #007BFF;
+}
+
+/* Botón de Volver */
+.btn-volver {
+    display: block;
+    width: 150px;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-volver:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* Animaciones de Entradas de Datos */
+.detalle-receta {
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
 
 
