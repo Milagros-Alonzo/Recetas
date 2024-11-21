@@ -117,12 +117,46 @@ class RecipeController {
             session_start();
             try {
                 $this->recetaModel = new Recipe();
-                $recipes = $this->recetaModel->getById($id);
+                $recipes = $this->recetaModel->getByUserId($id);
         
                 // Construir la respuesta con las claves 'success', 'data' y 'message'
                 $response = [
                     'success' => true,
                     'data' => $recipes,
+                    'message' => 'Recetas obtenidas exitosamente'
+                ];
+        
+                // Establecer el encabezado Content-Type a application/json
+                header('Content-Type: application/json');
+        
+                // Devolver la respuesta en formato JSON
+                echo json_encode($response);
+
+            }catch (Exception $e) {
+                $errorResponse = [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ];
+        
+                header('Content-Type: application/json');
+                echo json_encode($errorResponse);
+            }
+        }
+
+        public function getRecipeDetail($id) {
+            session_start();
+            try {
+                $this->recetaModel = new Recipe();
+                $this->ingredientModel = new Ingredient();
+
+                $recipes = $this->recetaModel->getById($id);
+                $ingredient = $this->ingredientModel->getByRecetaId($id);
+
+        
+                // Construir la respuesta con las claves 'success', 'data' y 'message'
+                $response = [
+                    'success' => true,
+                    'data' => [$recipes, $ingredient],
                     'message' => 'Recetas obtenidas exitosamente'
                 ];
         
@@ -162,10 +196,12 @@ class RecipeController {
         //exit;
         if ($_GET['action'] === 'getRecipe' && empty($_GET['id'])) {
             $controller->getAllRecipe();
+        }elseif ($_GET['action'] === 'getRecipeDetail') {
+            $controller->getRecipeDetail($_GET['id']);
         } else {
             $controller->getRecipe($_GET['id']);
         }
     }
-        
+    
         
         //throw new Exception(json_encode($_GET));

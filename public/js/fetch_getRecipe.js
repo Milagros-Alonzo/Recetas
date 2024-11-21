@@ -40,7 +40,7 @@ function cargarRecetas(recetas) {
 
     const container = document.querySelector('.container-receta');
     container.innerHTML = recetas.map(recipe => `
-        <div class="receta-contenedor" onclick="window.location.href='<?php echo BASE_URL; ?>/views/recipes/detail.php?id=${recipe.id}'">
+        <div class="receta-contenedor card" onclick="window.location.href='<?php echo BASE_URL; ?>/views/recipes/detail.php?id=${recipe.id}'">
             <div class="titulo"><strong>${recipe.titulo}</strong></div>
             <hr>
             <div class="imagen">

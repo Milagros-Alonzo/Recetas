@@ -10,41 +10,27 @@ if(isset($_SESSION['user'])) {
 }
 $mensaje = SessionManager::getMessage();
 
-// Obtener el ID de la receta de la URL
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-
-if ($id === 0) {
-    echo "ID de receta inválido.";
-    exit;
-}
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <h1>Detalles de la Receta - <?php echo htmlspecialchars($title); ?></h1>
-    <script>
-    const BASE_URL = '<?php echo BASE_URL; ?>';
-</script>
-<script src="<?php echo BASE_URL; ?>/public/js/fetch_recipeDetail.js"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Fetching details for recipe ID:', <?php echo $id; ?>);
 
-            fetchRecetaDetail(<?php echo $id; ?>, BASE_URL);
 
-        });
-    </script>
-</head>
-<body>
-    <div class="detalle-receta">
-        <!-- Aquí se cargarán los detalles de la receta -->
+    <div class="detaller-receta-container">
+        <h1>Detalles de la Receta</h1>
+        <div class="detalle-receta">
+            <!-- Aquí se cargarán los detalles de la receta -->
+        </div>
     </div>
-</body>
-</html>
+    
 
+
+    <script>   
+        <?php include BASE_PATH . '/public/js/fetch_recipeDetail.js'; ?>
+     
+        document.addEventListener('DOMContentLoaded', function() {
+                fetchRecetaDetail(<?php  echo isset($_GET['id']) ? $_GET['id'] : 0; ?>);
+            });
+    </script>
 <?php
 //incluye el script para la actualizacion de la session y que se mantenga abierta
 //include BASE_PATH . '/public/js/sessionScript.php';
