@@ -11,15 +11,15 @@ class user {
 
 
 
- // Constructor
- public function __construct($nombre = null, $email = null,  $contrasena = null, $rol = 'usuario', $token_sesion = null)
- {
-     $this->nombre = $nombre;
-     $this->email = $email;
-     $this->contrasena = $contrasena;
-     $this->rol = $rol;
-     $this->token_sesion = $token_sesion;
- }
+    // Constructor
+    public function __construct($nombre = null, $email = null,  $contrasena = null, $rol = 'usuario', $token_sesion = null)
+    {
+        $this->nombre = $nombre;
+        $this->email = $email;
+        $this->contrasena = $contrasena;
+        $this->rol = $rol;
+        $this->token_sesion = $token_sesion;
+    }
  
      /*
     *
@@ -64,21 +64,21 @@ class user {
         return $stmt->fetch(PDO::FETCH_ASSOC); // devuelve toda la info del usuario
     }
  
- public function savePasswordResetToken($userId, $token)
- {
-     $pdo = getConnection(); // Obtiene la conexión a la base de datos
- 
-     $sql = "UPDATE usuarios 
-             SET reset_token = :reset_token, reset_token_expire = DATE_ADD(NOW(), INTERVAL 1 HOUR) 
-             WHERE id = :id";
-     $stmt = $pdo->prepare($sql);
-     $stmt->execute([
-         ':reset_token' => $token,
-         ':id' => $userId
-     ]);
- 
-     return $stmt->rowCount() > 0; // Devuelve true si se actualizó al menos una fila
- }
+    public function savePasswordResetToken($userId, $token)
+    {
+        $pdo = getConnection(); // Obtiene la conexión a la base de datos
+    
+        $sql = "UPDATE usuarios 
+                SET reset_token = :reset_token, reset_token_expire = DATE_ADD(NOW(), INTERVAL 1 HOUR) 
+                WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':reset_token' => $token,
+            ':id' => $userId
+        ]);
+    
+        return $stmt->rowCount() > 0; // Devuelve true si se actualizó al menos una fila
+    }
  
  // Getters y Setters
 

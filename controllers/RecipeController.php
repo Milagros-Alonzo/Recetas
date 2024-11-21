@@ -112,6 +112,36 @@ class RecipeController {
                 echo json_encode($errorResponse);
             }
         }
+
+        public function getRecipe($id) {
+            session_start();
+            try {
+                $this->recetaModel = new Recipe();
+                $recipes = $this->recetaModel->getById($id);
+        
+                // Construir la respuesta con las claves 'success', 'data' y 'message'
+                $response = [
+                    'success' => true,
+                    'data' => $recipes,
+                    'message' => 'Recetas obtenidas exitosamente'
+                ];
+        
+                // Establecer el encabezado Content-Type a application/json
+                header('Content-Type: application/json');
+        
+                // Devolver la respuesta en formato JSON
+                echo json_encode($response);
+
+            }catch (Exception $e) {
+                $errorResponse = [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ];
+        
+                header('Content-Type: application/json');
+                echo json_encode($errorResponse);
+            }
+        }
 }
 
 
@@ -127,8 +157,15 @@ class RecipeController {
             $controller->guardarReceta($_POST, $_FILES);
         } 
     }  elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        if ($_GET['action'] === 'getRecipe') {
+        //var_dump(json_encode($_GET['id']));
+        //var_dump(json_encode(empty(trim($_GET['id']))));
+        //exit;
+        if ($_GET['action'] === 'getRecipe' && empty($_GET['id'])) {
             $controller->getAllRecipe();
+        } else {
+            $controller->getRecipe($_GET['id']);
         }
     }
-    //var_dump($_GET);
+        
+        
+        //throw new Exception(json_encode($_GET));

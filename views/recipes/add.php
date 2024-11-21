@@ -4,8 +4,14 @@ $title = "Agregar Recetas";
 ob_start(); // Inicia el almacenamiento en búfer de salida
 
 // incluye la creacion de la session y la revificacion de ella
-include BASE_PATH . '/include/session/createSession.php';
+include BASE_PATH . '/include/session/SessionManager.php';
 
+SessionManager::startSession();
+SessionManager::requireAuth();
+if(isset($_SESSION['user'])) {
+    SessionManager::checkSessionTimeout();
+}
+$mensaje = SessionManager::getMessage();
 ?>
 
 <div class="main-content">

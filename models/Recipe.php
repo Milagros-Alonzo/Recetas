@@ -40,9 +40,9 @@ class Recipe
     public static function getById($id)
     {
         $pdo = getConnection();
-        $stmt = $pdo->prepare("SELECT * FROM recetas WHERE id = :id");
+        $stmt = $pdo->prepare("SELECT * FROM recetas WHERE user_id = :id");
         $stmt->execute(['id' => $id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function save()

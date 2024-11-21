@@ -1,5 +1,5 @@
 <?php
-require_once BASE_PATH . '/config/config.php';
+require_once __DIR__ . '/../../config/config.php';
 
 session_start();
 session_destroy();
