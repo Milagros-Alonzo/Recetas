@@ -1,51 +1,90 @@
+
+-- Database: `recetas_web`
+CREATE DATABASE IF NOT EXISTS recetas_web;
+USE recetas_web;
+
+-- --------------------------------------------------------
+
+-- Table structure for table `usuarios`
 CREATE TABLE usuarios (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    contrasena VARCHAR(255) NOT NULL,
-    rol ENUM('usuario', 'administrador') DEFAULT 'usuario',
-    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+  id int(11) NOT NULL AUTO_INCREMENT,
+  nombre varchar(100) NOT NULL,
+  email varchar(100) NOT NULL UNIQUE,
+  contrasena varchar(255) NOT NULL,
+  rol enum('usuario','administrador') DEFAULT 'usuario',
+  token_sesion varchar(255) DEFAULT NULL,
+  fecha_registro timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
 
-
+-- Table structure for table `recetas`
 CREATE TABLE recetas (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    titulo VARCHAR(100) NOT NULL,
-    descripcion TEXT NOT NULL,
-    pasos text not NULL,
-    tiempo VARCHAR(50) NOT NULL,
-    imagen VARCHAR(255) DEFAULT NULL,
-    FOREIGN KEY (user_id) REFERENCES usuarios(id) ON DELETE CASCADE
-);
+  id int(11) NOT NULL AUTO_INCREMENT,
+  user_id int(11) NOT NULL,
+  titulo varchar(100) NOT NULL,
+  descripcion text NOT NULL,
+  pasos text NOT NULL,
+  tiempo varchar(50) NOT NULL,
+  imagen varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE valoraciones (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    receta_id INT NOT NULL,
-    user_id INT NOT NULL,
-    estrellas TINYINT NOT NULL CHECK (estrellas BETWEEN 1 AND 5),
-    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (receta_id) REFERENCES recetas(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES usuarios(id) ON DELETE CASCADE
-);
+-- --------------------------------------------------------
 
+-- Table structure for table `comentarios`
 CREATE TABLE comentarios (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    receta_id INT NOT NULL,
-    user_id INT NOT NULL,
-    comentario TEXT NOT NULL,
-    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (receta_id) REFERENCES recetas(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES usuarios(id) ON DELETE CASCADE
-);
+  id int(11) NOT NULL AUTO_INCREMENT,
+  receta_id int(11) NOT NULL,
+  user_id int(11) NOT NULL,
+  comentario text NOT NULL,
+  fecha datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `receta_id` (`receta_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
 
-
+-- Table structure for table `ingredientes`
 CREATE TABLE ingredientes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    receta_id INT,
-    ingrediente VARCHAR(255),
-    FOREIGN KEY (receta_id) REFERENCES recetas(id) ON DELETE CASCADE
-);
+  id int(11) NOT NULL AUTO_INCREMENT,
+  receta_id int(11) DEFAULT NULL,
+  ingrediente varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `receta_id` (`receta_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+-- Table structure for table `valoraciones`
+CREATE TABLE valoraciones (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  receta_id int(11) NOT NULL,
+  user_id int(11) NOT NULL,
+  estrellas tinyint(4) NOT NULL CHECK (`estrellas` BETWEEN 1 AND 5),
+  fecha datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `receta_id` (`receta_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+-- Add foreign keys after all tables are created
+ALTER TABLE recetas
+  ADD CONSTRAINT `recetas_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE comentarios
+  ADD CONSTRAINT `comentarios_ibfk_1` FOREIGN KEY (`receta_id`) REFERENCES `recetas` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `comentarios_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE ingredientes
+  ADD CONSTRAINT `ingredientes_ibfk_1` FOREIGN KEY (`receta_id`) REFERENCES `recetas` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE valoraciones
+  ADD CONSTRAINT `valoraciones_ibfk_1` FOREIGN KEY (`receta_id`) REFERENCES `recetas` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `valoraciones_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
 
