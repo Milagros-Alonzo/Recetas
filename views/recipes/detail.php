@@ -21,16 +21,23 @@ $mensaje = SessionManager::getMessage();
             <!-- Aquí se cargarán los detalles de la receta -->
         </div>
     </div>
-    
-
 
     <script>   
         <?php include BASE_PATH . '/public/js/fetch_recipeDetail.js'; ?>
-     
+        
         document.addEventListener('DOMContentLoaded', function() {
                 fetchRecetaDetail(<?php  echo isset($_GET['id']) ? $_GET['id'] : 0; ?>);
             });
     </script>
+           <!-- Mostrar Comentarios -->
+ <div class="mostrar-comentarios">
+            <h2>Comentarios</h2>
+            <div id="comentarios-lista">
+                <!-- Aquí se mostrarán los comentarios cargados con JavaScript -->
+            </div>
+        </div>
+ </div
+ <?php include BASE_PATH . '/public/js/fetch_comments.js'; ?>
 <?php
 //incluye el script para la actualizacion de la session y que se mantenga abierta
 //include BASE_PATH . '/public/js/sessionScript.php';
