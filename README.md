@@ -63,10 +63,9 @@ El objetivo principal es proporcionar una plataforma donde los usuarios puedan:
    ```bash
    git clone https://github.com/colocas_tu_username/recetas.git
    
-   o descargarlo desde GitHub.
 
 2. Colocar el proyecto en el directorio raíz del servidor local:
-    
+    ```bash
     mv recetas C:/laragon/www/PROYECTO_FINAL/Recetas
 
 3. Importar la base de datos:
@@ -88,6 +87,8 @@ Ajusta las credenciales de la base de datos:
     ```bash
     http://localhost/PROYECTO_FINAL/Recetas
 
+---
+
 ## Uso
 ### Funcionalidades básicas:
 
@@ -105,6 +106,8 @@ Ajusta las credenciales de la base de datos:
 
 5. Administración:
    - Los administradores pueden gestionar usuarios, recetas y comentarios desde el panel.
+
+---
 
 ## Contribuciones
 ### Si deseas contribuir a este proyecto:
