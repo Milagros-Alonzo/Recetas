@@ -62,3 +62,65 @@ El objetivo principal es proporcionar una plataforma donde los usuarios puedan:
 1. Clonar el repositorio:
    ```bash
    git clone https://github.com/colocas_tu_username/recetas.git
+   
+   o descargarlo desde GitHub.
+
+2. Colocar el proyecto en el directorio raíz del servidor local:
+    
+    mv recetas C:/laragon/www/PROYECTO_FINAL/Recetas
+
+3. Importar la base de datos:
+
+    - Abre phpMyAdmin o tu herramienta favorita de gestión de bases de datos.
+    - Crea una base de datos llamada recetas.
+    - Importa el archivo Database/Database.sql.
+
+4. Configurar el archivo config.php:
+
+Ajusta las credenciales de la base de datos:
+
+    define('DB_HOST', 'localhost');
+    define('DB_USER', 'recetas');
+    define('DB_PASSWORD', 'recetas');
+    define('DB_NAME', 'recetas_web');
+
+5. Inicia Laragon y accede al proyecto:
+    ```bash
+    http://localhost/PROYECTO_FINAL/Recetas
+
+## Uso
+### Funcionalidades básicas:
+
+1. Registro de usuario:
+   - Crea una cuenta para poder añadir recetas y comentar.
+
+2. Añadir una receta:
+   - Accede a la opción "Agregar Receta" desde el menú.
+   
+3. Búsqueda de recetas:
+   - Usa los filtros disponibles para encontrar recetas específicas.
+
+4. Gestión de comentarios:
+   - Deja comentarios y calificaciones en las recetas publicadas.
+
+5. Administración:
+   - Los administradores pueden gestionar usuarios, recetas y comentarios desde el panel.
+
+## Contribuciones
+### Si deseas contribuir a este proyecto:
+
+1. Haz un fork del repositorio.
+2. Crea una nueva rama para tu funcionalidad:
+
+    ```bash
+    git checkout -b feature/nueva-funcionalidad
+
+3. Realiza un pull request explicando tus cambios.
+
+---
+
+## Autores
+### Milagros Alonzo
+### Kenneth Pardo
+
+
