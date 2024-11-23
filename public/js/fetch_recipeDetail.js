@@ -41,7 +41,12 @@ function cargarRecetaDetail(receta) {
     const container = document.querySelector('.detalle-receta');
 
     container.innerHTML = `
+<<<<<<< HEAD
+        <h1>Receta: ${recetaFinal[0]['titulo'] ?? 'Título no disponible'}</h1>
+        <h2>Receta: ${recetaFinal[0]['tipo_comida'] ?? 'Título no disponible'}</h2>
+=======
         <h1>Receta: ${recetaFinal[0]['titulo'] ?? 'Título no disponible'}, id: ${recetaFinal[0]['id']}</h1>
+>>>>>>> 97b7aed48b692d57c21393a2370beb144878f547
         <div class="imagen">
             <img class="img-index" src="<?php echo BASE_URL; ?>/public/img/${recetaFinal[0]['imagen']}" alt="Receta ${recetaFinal[0]['titulo']}">
         </div>
