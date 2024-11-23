@@ -40,6 +40,7 @@ CREATE TABLE comentarios (
   receta_id int(11) NOT NULL,
   user_id int(11) NOT NULL,
   comentario text NOT NULL,
+  estrellas tinyint(5) NOT NULL CHECK (`estrellas` BETWEEN 0 AND 5),
   fecha datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `receta_id` (`receta_id`),
@@ -59,19 +60,7 @@ CREATE TABLE ingredientes (
 
 -- --------------------------------------------------------
 
--- Table structure for table `valoraciones`
-CREATE TABLE valoraciones (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  receta_id int(11) NOT NULL,
-  user_id int(11) NOT NULL,
-  estrellas tinyint(4) NOT NULL CHECK (`estrellas` BETWEEN 1 AND 5),
-  fecha datetime DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`),
-  KEY `receta_id` (`receta_id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
 
 -- Add foreign keys after all tables are created
 ALTER TABLE recetas
