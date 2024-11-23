@@ -139,10 +139,11 @@ h2 {
 }
 
 
+
 /*
 *
 *
-*index 
+* diseno index 
 *
 */
 
@@ -159,6 +160,8 @@ h2 {
     display: flex;
     width: 100%;
     padding-top: 10px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #d0d9e351;
 }
 
 .titulo-pagina {
@@ -207,6 +210,79 @@ h2 {
     width: 100%;
     height: 100%;
 }
+
+.controller-container-receta {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding-top: 10px;
+}
+
+.controller-container-receta #borrar-receta-user {
+    background-color: rgba(168, 60, 60, 0.83);
+}
+
+.controller-container-receta #subir-receta-user {
+    background-color: rgba(56, 74, 134, 0.896);
+}
+
+.controller-container-receta #actualizar-receta-user {
+    background-color: rgba(75, 82, 105, 0.896);
+}
+
+.controller-container-receta button {
+    color: white;
+}
+
+/*
+*
+*
+*btn animation online
+*
+*/
+/*** ESTILOS BOTÓN GROW SKEW REVERSE ***/
+.ov-btn-grow-skew-reverse {
+    background: #d5dadf; /* color de fondo */
+    color: #6a6a6b; /* color de fuente */
+    border: 2px solid #c9cacb; /* tamaño y color de borde */
+    padding: 7px 20px;
+    border-radius: 3px; /* redondear bordes */
+    position: relative; 
+    z-index: 1;
+    overflow: hidden;
+    display: inline-block;
+    height: 40px;
+    margin-left: 5px;
+    text-decoration: none !important;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 2px 2px 5px #a0a0a1cf;
+  }
+
+  .ov-btn-grow-skew-reverse:hover {
+    color: #fff;/* color de fuente hover */
+    transform: translateY(-0.5px); /* Levantar hacia arriba */
+    box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.3);
+  }
+  .ov-btn-grow-skew-reverse::after {
+    content: "";
+    background: #2a2773c7; /* color de fondo hover */
+    position: absolute;
+    z-index: -1;
+    padding: 16px 20px;
+    display: block;
+    left: -20%;
+    right: -20%;
+    top: 0;
+    bottom: 0;
+    transform: skewX(45deg) scale(0, 1);
+    transition: all 0.3s ease;
+  }
+  .ov-btn-grow-skew-reverse:hover::after {
+    transition: all 0.3s ease-out;
+    transform: skewX(45deg) scale(1, 1);
+  }
 
 /*------------ diseno del search bar ---------*/
 .search-box{
@@ -317,7 +393,7 @@ h2 {
 /*
 *
 *
-* agreagr recetas
+* diseno agreagr recetas
 *
 *
 */
@@ -476,7 +552,7 @@ h2 {
     }
 }
 
-/* ------------ Estilo Detalle Receta ------------ */
+/* ------------ diseno Estilo Detalle Receta ------------ */
 
 .detaller-receta-container {
     display: flex;
