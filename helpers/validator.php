@@ -3,6 +3,163 @@
 
 class Validator
 {
+    private $errors = [];
+
+    public function validate($data, $rules)
+    {
+        foreach ($rules as $field => $fieldRules) {
+            $value = isset($data[$field]) ? $data[$field] : null;
+
+            foreach ($fieldRules as $rule => $ruleValue) {
+                $methodName = 'validate' . ucfirst($rule);
+
+                if (method_exists($this, $methodName)) {
+                    $result = $this->{$methodName}($field, $value, $ruleValue);
+                    if (!$result) {
+                        // Si la validación falla, se agrega un mensaje de error
+                        $this->addError($field, $rule);
+                    }
+                } else {
+                    throw new Exception("La regla de validación '$rule' no existe.");
+                }
+            }
+        }
+
+        return empty($this->errors);
+    }
+    
+
+    private function addError($field, $rule)
+    {
+        $this->errors[$field][] = "El campo '$field' no cumple la regla '$rule'.";
+    }
+
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+
+    // Métodos de validación
+
+    private function validateRequired($field, $value, $ruleValue)
+    {
+        if ($ruleValue) {
+            return !empty($value) || $value === '0';
+        }
+        return true;
+    }
+
+    private function validateEmail($field, $value, $ruleValue)
+    {
+        if ($ruleValue) {
+            return filter_var($value, FILTER_VALIDATE_EMAIL) !== false;
+        }
+        return true;
+    }
+    private function validateInt($field, $value, $ruleValue)
+    {
+        if ($ruleValue) {
+            return filter_var($value, FILTER_VALIDATE_INT) !== false;
+        }
+        return true;
+    }
+    
+
+    private function validateFloat($field, $value, $ruleValue)
+    {
+        if ($ruleValue) {
+            return filter_var($value, FILTER_VALIDATE_FLOAT) !== false;
+        }
+        return true;
+    }
+
+    private function validateString($field, $value, $ruleValue)
+    {
+        if ($ruleValue) {
+            return is_string($value);
+        }
+        return true;
+    }
+
+    private function validateMax($field, $value, $ruleValue)
+    {
+        return strlen($value) <= $ruleValue;
+    }
+
+    private function validateMin($field, $value, $ruleValue)
+    {
+        return strlen($value) >= $ruleValue;
+    }
+
+    private function validateBetween($field, $value, $ruleValue)
+    {
+        $min = $ruleValue[0];
+        $max = $ruleValue[1];
+        return $value >= $min && $value <= $max;
+    }
+
+    private function validateDate($field, $value, $ruleValue)
+    {
+        if ($ruleValue) {
+            return (bool)strtotime($value);
+        }
+        return true;
+    }
+
+    private function validateImage($field, $value, $ruleValue)
+    {
+        if ($ruleValue && isset($value['tmp_name'])) {
+            $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            return in_array($value['type'], $allowedTypes);
+        }
+        return true;
+    }
+
+    private function validateArray($field, $value, $ruleValue)
+    {
+        if ($ruleValue) {
+            return is_array($value);
+        }
+        return true;
+    }
+
+    private function validateMinItems($field, $value, $ruleValue)
+    {
+        if (is_array($value)) {
+            return count($value) >= $ruleValue;
+        }
+        return false;
+    }
+
+    // Validar y cargar imagen
+    private function uploadImage($file, $uploadDir)
+    {
+        // Verificar errores
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            throw new Exception('Error al subir la imagen.');
+        }
+
+        // Verificar tipo de archivo
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        if (!in_array($file['type'], $allowedTypes)) {
+            throw new Exception('El tipo de archivo no es válido.');
+        }
+
+        // Generar nombre único para la imagen
+        $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $uniqueName = uniqid('img_', true) . '.' . $extension;
+
+        // Mover la imagen al directorio de destino
+        $uploadPath = $uploadDir . $uniqueName;
+        if (!move_uploaded_file($file['tmp_name'], $uploadPath)) {
+            throw new Exception('No se pudo guardar la imagen.');
+        }
+
+        return $uniqueName;
+    }
+
+
+    /*
     public static function validateUserData($data)
     {
         // Sanitizar y validar datos
@@ -86,30 +243,5 @@ class Validator
         ];
     }
 
-    // Validar y cargar imagen
-    public static function uploadImage($file, $uploadDir)
-    {
-        // Verificar errores
-        if ($file['error'] !== UPLOAD_ERR_OK) {
-            throw new Exception('Error al subir la imagen.');
-        }
-
-        // Verificar tipo de archivo
-        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-        if (!in_array($file['type'], $allowedTypes)) {
-            throw new Exception('El tipo de archivo no es válido.');
-        }
-
-        // Generar nombre único para la imagen
-        $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-        $uniqueName = uniqid('img_', true) . '.' . $extension;
-
-        // Mover la imagen al directorio de destino
-        $uploadPath = $uploadDir . $uniqueName;
-        if (!move_uploaded_file($file['tmp_name'], $uploadPath)) {
-            throw new Exception('No se pudo guardar la imagen.');
-        }
-
-        return $uniqueName;
-    }
+    */
 }

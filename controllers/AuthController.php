@@ -5,10 +5,12 @@
 
     class AuthController {
         private $usuarioModel;
+        private $validator;
 
         public function __construct()
         {
-            $this->usuarioModel = new User(); // Instancia del modelo
+            $this->usuarioModel = new User();// Instancia del modelo
+            $this->validator = new Validator();
         }    
          
         public function guardarUsuario($datos)
@@ -16,33 +18,60 @@
             session_start();
             try {
                 // Validar datos usando Validator
-                $datosValidados = Validator::validateUserData($datos);
+
+                $rules = [
+                    'nombre'=> [
+                        'required' => true,
+                        'string' =>  true,
+                        'max' => 50,
+                    ],
+                    'email'=> [
+                        'required' => true,
+                        'email' => true,
+                    ],
+                    'password'=> [
+                        'required' => true,
+                        'string' => true,
+                        'min' => 8,
+                    ],
+                ];
+
+
+                if($this->validator->validate($datos, $rules)){
+                    $nombre = $datos['nombre'];
+                    $email = $datos['email'];
+                    $password = $datos['password'];
+                    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+
+
+                    $this->usuarioModel = new User(
+                        $nombre,
+                        $email,
+                        $passwordHash,
+                    );
+                    
+                    // Llama al modelo para guardar los datos
+                    $id = $this->usuarioModel->insertUser();
     
-                // llamar al constructor y asignar los valores
-                $this->usuarioModel = new User(
-                    $datosValidados['nombre'],
-                    $datosValidados['email'],
-                    $datosValidados['password'],
-                );
-                
-                // Llama al modelo para guardar los datos
-                $id = $this->usuarioModel->insertUser();
-
-                if ($id) {
-                    // Crear sesión para el usuario registrado
-                    $_SESSION['user'] = $id;
-                    $_SESSION['user_name'] = $datosValidados['nombre'];
-                    $_SESSION['user_email'] = $datosValidados['email'];
-                    $_SESSION['es_admin'] = $datosValidados['rol'];
-
-                    // Devuelve un éxito indicando que la sesión se inició
-                    return header('location: ' . BASE_URL . '/index.php');
+                    if ($id) {
+                        // Crear sesión para el usuario registrado
+                        $_SESSION['user'] = $id;
+                        $_SESSION['user_name'] = $nombre;
+                        $_SESSION['user_email'] = $email;
+                        $_SESSION['es_admin'] = $datos['rol'];
+    
+                        // Devuelve un éxito indicando que la sesión se inició
+                        return header('location: ' . BASE_URL . '/index.php');
+                    // llamar al constructor y asignar los valores
+                    } else {
+                        $_SESSION['mensaje'] = 'Error al registrar el usuario';
+                        // Manejar errores de validación
+                        return header('location: ' . BASE_URL . '/views/auth/login.php');              
+                    }
                 } else {
-                    $_SESSION['mensaje'] = 'Error al registrar el usuario';
-                    // Manejar errores de validación
-                    return header('location: ' . BASE_URL . '/views/auth/login.php');              
+                    $err = $this->validator->getErrors();
+                    var_dump($err);
                 }
-    
             } catch (Exception $e) {
                 $_SESSION['mensaje'] = 'Algo salió mal!. ' . $e->getMessage();
                 // Manejar errores de validación
@@ -50,53 +79,55 @@
             }
         }
 
-        public function login($data) 
+        public function login($datos) 
         {
             session_start();
             try {
-                // Validar y sanitizar los datos
-                $datosValidados = Validator::validateLoginData($data);
-                
-                $email = $datosValidados['email'];
-                $password = $datosValidados['password'];
-        
-                if (!$email) {
-                    $_SESSION['mensaje'] = 'El correo electrónico no es válido.';
-                    // Manejar errores de validación
-                    return header('location: ' . BASE_URL . '/views/auth/login.php');    
-                }
-        
-                if (empty($password)) {
-                    $_SESSION['mensaje'] = 'La contraseña no puede estar vacía.';
-                    // Manejar errores de validación
-                    return header('location: ' . BASE_URL . '/views/auth/login.php');   
-                }
-        
-                // Buscar al usuario en la base de datos
-                $user = $this->usuarioModel->findUserByEmail($email);
-        
-                if (!$user) {
-                    $_SESSION['mensaje'] = 'El usuario no existe.';
-                    // Manejar errores de validación
-                    return header('location: ' . BASE_URL . '/views/auth/login.php');   
-                }
-                
-                // Verificar contraseña
 
-                if (!password_verify($password, $user['contrasena'])) {
-                    $_SESSION['mensaje'] = 'La contraseña es incorrecta.';
-                    // Manejar errores de validación
-                    return header('location: ' . BASE_URL . '/views/auth/login.php'); 
+                $rules = [
+                    'email' => [
+                        'required' => true,
+                        'email' => true,
+                    ],
+                    'password' => [
+                        'required' => true,
+                        'min' => 8
+                    ]
+                ];
+
+                if($this->validator->validate($datos, $rules)){
+                    $email = $datos['email'];
+                    $password = $datos['password'];
+            
+            
+                    // Buscar al usuario en la base de datos
+                    $user = $this->usuarioModel->findUserByEmail($email);
+            
+                    if (!$user) {
+                        $_SESSION['mensaje'] = 'El usuario no existe.';
+                        // Manejar errores de validación
+                        return header('location: ' . BASE_URL . '/views/auth/login.php');   
+                    }
+                    
+                    // Verificar contraseña
+                    if (!password_verify($password, $user['contrasena'])) {
+                        $_SESSION['mensaje'] = 'La contraseña es incorrecta.';
+                        // Manejar errores de validación
+                        return header('location: ' . BASE_URL . '/views/auth/login.php'); 
+                    }
+            
+                    // Iniciar sesión
+                    $_SESSION['user'] = $user['id'];
+                    $_SESSION['user_name'] = $user['nombre'];
+                    $_SESSION['user_email'] = $user['email'];
+                    $_SESSION['es_admin'] = $user['rol'] ?? 'usuario';
+            
+                    return header("Location: " . BASE_URL . "/index.php");
+                } else {
+                    // Datos no válidos, obtener errores
+                    $errors = $this->validator->getErrors();
+                    var_dump($errors);
                 }
-        
-                // Iniciar sesión
-                $_SESSION['user'] = $user['id'];
-                $_SESSION['user_name'] = $user['nombre'];
-                $_SESSION['user_email'] = $user['email'];
-                $_SESSION['es_admin'] = $user['rol'] ?? 'usuario';
-        
-                return header("Location: " . BASE_URL . "/index.php");
-        
             } catch (Exception $e) {
                 // Manejar errores y redirigir al login con un mensaje
                 $_SESSION['mensaje'] = $e->getMessage();
