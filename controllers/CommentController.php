@@ -175,11 +175,11 @@ class CommentController {
 
             $comments = Comment::getComentario_UserId_recetaId($receta_id, $user_id);
 
-            echo json_encode($comments);
+            return json_encode($comments);
 
         } catch (Exception $e) {
             http_response_code(500);
-            echo json_encode(["message" => "Error al obtener comentarios.", "error" => $e->getMessage()]);
+            return json_encode(["message" => "Error al obtener comentarios.", "error" => $e->getMessage()]);
         }
     }
 
@@ -189,11 +189,11 @@ class CommentController {
     
             $allComments = Comment::getComentario_RecetaId($receta);
 
-            echo json_encode($allComments);
+            return json_encode($allComments);
 
         }catch (Exception $e) {
             http_response_code(500);
-            echo json_encode(["message" => "Error al obtener comentarios.", "error" => $e->getMessage()]);
+            return json_encode(["message" => "Error al obtener comentarios.", "error" => $e->getMessage()]);
         }
     }
 }
@@ -204,30 +204,33 @@ class CommentController {
     *
     */
     $controller = new CommentController();
-
     //manejo de post
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         var_dump($_POST);
-        if ($_POST['action'] === 'subirComentario'){
-            $controller->guardarComentario($_POST);
-        }
+        if (isset($_POST['action'])) {
+            if ($_POST['action'] === 'subirComentario'){
+                $controller->guardarComentario($_POST);
+            }
 
-        if($_POST['action'] === 'updateComentario'){ 
-            $controller->updateComentario($_POST);
-        }
+            if($_POST['action'] === 'updateComentario'){ 
+                $controller->updateComentario($_POST);
+            }
 
-        if($_POST['action'] === 'borrarComentario') {
-            $controller->deleteComentario($_POST);
+            if($_POST['action'] === 'borrarComentario') {
+                $controller->deleteComentario($_POST);
+            }
         }
     }  
 
     if($_SERVER['REQUEST_METHOD'] === 'GET') {
-        if($_GET['action'] === 'getComment_id') {
-            $controller->getCommentId($_GET);
-        }
+        if (isset($_GET['action'])) {
+            if($_GET['action'] === 'getComment_id') {
+                $controller->getCommentId($_GET);
+            }
 
-        if($_GET['action'] === 'getComment') {
-            $controller->getComment($_GET);
+            if($_GET['action'] === 'getComment') {
+                $controller->getComment($_GET);
+            }
         }
     }
     

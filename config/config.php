@@ -10,4 +10,3 @@
 
     define('CONEXION_DB', '/PROYECTO_FINAL/Recetas/helpers/databaseConexion.php');
 
-?>

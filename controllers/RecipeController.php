@@ -128,11 +128,11 @@ class RecipeController {
                 $recipes = Recipe::getAll();
 
 
-                echo json_encode($recipes);
+                return json_encode($recipes);
 
             }catch (Exception $e) {
 
-                echo json_encode($e->getMessage());
+                return json_encode($e->getMessage());
             }
         }
 
@@ -142,22 +142,23 @@ class RecipeController {
         
         
                 // Devolver la respuesta en formato JSON
-                echo json_encode($recipes);
+                return json_encode($recipes);
 
             }catch (Exception $e) {
-                echo json_encode($e->getMessage());
+                return json_encode($e->getMessage());
             }
         }
 
         public function getRecipeDetail($id) {
+            $id = $id['recipe_id'];
             try {
                 $recipes = Recipe::getById($id);
                 $ingredient = Ingredient::getByRecetaId($id);
 
-                echo json_encode([$recipes, $ingredient]);
+                return json_encode([$recipes, $ingredient]);
             }catch (Exception $e) {
 
-                echo json_encode($e->getMessage());
+                return json_encode($e->getMessage());
             }
         }
 
@@ -173,19 +174,23 @@ class RecipeController {
 
     //manejo de post
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if ($_POST['action'] === 'register') {
-            $controller->guardarReceta($_POST, $_FILES);
+        if(isset($_POST['action'])) {
+            if ($_POST['action'] === 'register') {
+                $controller->guardarReceta($_POST, $_FILES);
+            }
         }
     }  
     
     //manejo de get
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        if ($_GET['action'] === 'getRecipe' && empty($_GET['id'])) {
-            $controller->getAllRecipe();
-        }elseif ($_GET['action'] === 'getRecipeDetail') {
-            $controller->getRecipeDetail($_GET['id']);
-        } else {
-            $controller->getRecipe($_GET['id']);
+        if(isset($_GET['action'])) {
+            if ($_GET['action'] === 'getRecipe' && empty($_GET['id'])) {
+                $controller->getAllRecipe();
+            }elseif ($_GET['action'] === 'getRecipeDetail') {
+                $controller->getRecipeDetail($_GET['id']);
+            } else {
+                $controller->getRecipe($_GET['id']);
+            }
         }
     }
     
