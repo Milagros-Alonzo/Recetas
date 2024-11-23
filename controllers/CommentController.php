@@ -221,16 +221,3 @@ class CommentController {
             }
         }
     }  
-
-    if($_SERVER['REQUEST_METHOD'] === 'GET') {
-        if (isset($_GET['action'])) {
-            if($_GET['action'] === 'getComment_id') {
-                $controller->getCommentId($_GET);
-            }
-
-            if($_GET['action'] === 'getComment') {
-                $controller->getComment($_GET);
-            }
-        }
-    }
-    

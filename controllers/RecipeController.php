@@ -181,17 +181,5 @@ class RecipeController {
         }
     }  
     
-    //manejo de get
-    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        if(isset($_GET['action'])) {
-            if ($_GET['action'] === 'getRecipe' && empty($_GET['id'])) {
-                $controller->getAllRecipe();
-            }elseif ($_GET['action'] === 'getRecipeDetail') {
-                $controller->getRecipeDetail($_GET['id']);
-            } else {
-                $controller->getRecipe($_GET['id']);
-            }
-        }
-    }
     
         

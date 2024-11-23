@@ -9,28 +9,23 @@ include BASE_PATH . '/controllers/CommentController.php';
 include BASE_PATH . '/include/session/SessionManager.php';
 
 SessionManager::startSession();
+$CommentController = new CommentController();
+$recipeController = new RecipeController();
 if(isset($_SESSION['user'])) {
     SessionManager::checkSessionTimeout();
     $user_id = $_SESSION['user'];
-    $recipe_id = $_GET['id'];
-
-    $CommentController = new CommentController();
-    $recipeController = new RecipeController();
-
-
     $comment_user = json_decode($CommentController->getCommentId([
         'user_id' => $user_id,
         'receta_id' => $recipe_id,
-    ]));
-
-    $commentAll = json_decode($CommentController->getComment([
-        'receta_id' => $recipe_id,
-    ])); 
-
-    $receta_detail = json_decode($recipeController->getRecipeDetail([
-        'recipe_id' => $recipe_id,
-    ]));
+    ]));   
 }
+$recipe_id = $_GET['id'];
+$commentAll = json_decode($CommentController->getComment([
+    'receta_id' => $recipe_id,
+])); 
+$receta_detail = json_decode($recipeController->getRecipeDetail([
+    'recipe_id' => $recipe_id,
+]));
 $mensaje = SessionManager::getMessage();
 
 
@@ -113,7 +108,9 @@ $mensaje = SessionManager::getMessage();
                 <div id="comentarios-lista-container">
                     <?php if (!empty($commentAll)): ?>
                         <?php foreach ($commentAll as $comment): ?>
-                            <?php if($comment->user_id === $_GET['id']): ?>
+                            
+                            <?= var_dump($comment->user_id) ?>
+                            <?php if($comment->user_id != $_GET['id']): ?>
                                 <div class="comentario">
                                     <div class="imagen-perfil-container"> 
                                         <img 
@@ -142,7 +139,7 @@ $mensaje = SessionManager::getMessage();
         <?php if(isset($comment_user)): ?>
             <script>    
                     const commentUser = <?php echo json_encode($comment_user); ?>;
-                    if(commentUser) {
+                    if(commentUser.length > 0) {
                         const comentarios = document.getElementById("tu-comentario-texbox");
                         const fecha = document.getElementById('fecha');
                         const estrella = document.querySelectorAll('.tuComentario-container .rating .fa-star');
