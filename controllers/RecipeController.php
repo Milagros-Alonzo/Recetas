@@ -24,6 +24,8 @@ class RecipeController {
 
         public function guardarReceta($data, $file) 
         {
+            $datosCombinados = array_merge($_POST, $_FILES);
+
             session_start();
             try {
 
@@ -48,7 +50,7 @@ class RecipeController {
                         'string' => true,
                         'max' => 50
                     ],
-                    'ingredientes' => [
+                    'ingrediente' => [
                         'required' => true,
                         'array' => true,
                         'minItems' => 1
@@ -59,15 +61,16 @@ class RecipeController {
                     ]
                 ];
                 
-                if($this->validator->validate($data, $rules)) {
-
+                
+                if($this->validator->validate($datosCombinados, $rules)) {
+                    
                     $titulo = $data['titulo'];
                     $descripcion = $data['descripcion'];
                     $pasos = $data['pasos'];
                     $tiempo = $data['tiempo'];
-                    $ingredientes = $data['ingredientes'];
-                    $imagen = $data['imagen'];
-    
+                    $ingredientes = $data['ingrediente'];
+                    $imagen = $file['imagen'];
+                    
     
                     //validaciones
                     if (!isset($_SESSION['user'])) {
