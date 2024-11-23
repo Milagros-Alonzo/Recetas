@@ -40,20 +40,25 @@ async function getComment_id(recetaId, userid) {
             fecha.innerText = comments[0]['fecha']
             estrallaInput.value = comments[0]['estrellas']
             btnComentario.innerText = 'actualizar';
-            
-            btnComentario.setAttribute('type', 'button');
             btnAction.value = 'updateComentario';
 
 
 
-            btnComentario.addEventListener('click', recetaId => {
-                setTimeout(()=>{
+            const manejarClick = event => {
+                event.preventDefault();
+            
+                setTimeout(() => {
                     btnComentario.innerText = 'subir';
-                    btnComentario.setAttribute('type', 'submit');
-                    tuComentario.classList.remove('disabled')
+                    tuComentario.classList.remove('disabled');
+            
+                    // Eliminar el evento después de su ejecución
+                    btnComentario.removeEventListener('click', manejarClick);
                 }, 100);
-
-            })
+            };
+            
+            // Añadir el manejador de eventos
+            btnComentario.addEventListener('click', manejarClick);
+            
 
 
 
