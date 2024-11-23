@@ -29,6 +29,7 @@ class RecipeController {
                 $tiempo = $datosValidados['tiempo'];
                 $ingredientes = $datosValidados['ingredientes'];
                 $imagen = $datosValidados['imagen'];
+                $tipoComida = $datosValidados['tipo_comida'];
 
 
                 //validaciones

@@ -13,14 +13,16 @@ class Recipe
     private $tiempo;
     private $ingredientes;
     private $imagen;
+    private $tipoComida;
 
-    public function __construct($user_id = null, $titulo = null, $descripcion = null, $pasos = null, $tiempo = null,  $imagen = null) {
+    public function __construct($user_id = null, $titulo = null, $descripcion = null, $pasos = null, $tiempo = null,  $imagen = null, $tipocomida = null) {
         $this->user_id = $user_id;
         $this->titulo = $titulo;
         $this->descripcion = $descripcion;
         $this->pasos = $pasos;
         $this->tiempo = $tiempo;
         $this->imagen = $imagen;
+        $this ->tipoComida = $tipocomida;
     }
 
     public static function getAll()
@@ -58,7 +60,7 @@ class Recipe
     {
         $pdo = getConnection();
         $stmt = $pdo->prepare(
-            "INSERT INTO recetas (user_id, titulo, descripcion, pasos, tiempo, imagen)
+            "INSERT INTO recetas (user_id, titulo, descripcion, pasos, tiempo, imagen,tipo_comida)
              VALUES (:user_id, :titulo, :descripcion, :pasos, :tiempo, :imagen)"
         );
         $stmt->execute([
@@ -67,7 +69,8 @@ class Recipe
             'descripcion' => $this->descripcion,
             'pasos' => $this->pasos,
             'tiempo' => $this->tiempo,
-            'imagen' => $this->imagen
+            'imagen' => $this->imagen,
+            'tipo_comida' => $this ->tipoComida
         ]);
 
         return $pdo->lastInsertId();
@@ -100,6 +103,9 @@ class Recipe
 
     public function getImagen() { return $this->imagen; }
     public function setImagen($imagen) { $this->imagen = $imagen; }
+
+    public function getTipoComida() { return $this->tipoComida; }
+    public function setTipoComida($tipoComida) { $this->tipoComida = $tipoComida; }
 
     // Métodos para la base de datos
     
