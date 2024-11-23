@@ -22,13 +22,26 @@ $mensaje = SessionManager::getMessage();
                 </div>
             </div>
             <hr>
-        </div>        
-        <div class="container-receta">
-            <!-- para la lista de tus recetas nececitas declarar un id -->
-            <?php $id = isset($_SESSION['user']) ? $_SESSION['user'] : ''; ?>
-            <!-- llamar el componente -->
-            <?php include BASE_PATH . '/include/component/all-recipe-component.php'; ?>
-        </div>
+        </div>   
+        <form action="">
+            <div class="controller-container-receta">
+                <button 
+                    type="submit" 
+                    id="actualizar-receta-user" 
+                    name="action" 
+                    value="borrarComentario"
+                    <?php echo isset($_SESSION['user']) ? '' : 'data-logged-in="false"'; ?>
+                    onclick="return confirm('¿Estás seguro de que deseas borrar este comentario?');"
+                >Borrar
+                </button>
+            </div>     
+            <div class="container-receta">
+                <!-- para la lista de tus recetas nececitas declarar un id -->
+                <?php $id = isset($_SESSION['user']) ? $_SESSION['user'] : ''; ?>
+                <!-- llamar el componente -->
+                <?php include BASE_PATH . '/include/component/all-recipe-component.php'; ?>
+            </div>
+        </form>
     </div>
 
 <?php

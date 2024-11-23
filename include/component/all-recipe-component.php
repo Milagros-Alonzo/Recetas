@@ -1,17 +1,13 @@
 <?php
 include BASE_PATH . '/controllers/RecipeController.php';
 
-if(isset($_SESSION['user'])) {
-    $recipeController = new RecipeController();
+$recipeController = new RecipeController();
 
-    if(isset($id) && $id != '') {
-        $recetas = json_decode($recipeController->getRecipe($id));
-    }else {
-        $recetas = json_decode($recipeController->getAllRecipe());
-    }
-
+if(isset($id) && $id != '') {
+    $recetas = json_decode($recipeController->getRecipe($id));
+}else {
+    $recetas = json_decode($recipeController->getAllRecipe());
 }
-
 ?>
 
 <?php if(isset($recetas)): ?>
