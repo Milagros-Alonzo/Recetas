@@ -2,16 +2,16 @@
 require_once __DIR__ . '/../../config/config.php';
 
 $title = "Recuperar Contraseña"; 
-$title = "Iniciar Sesión"; 
+
 ob_start();
 
 session_start();
-if(isset($_SESSION['mensaje'])){
-    $mensaje = $_SESSION['mensaje'];
-}else {
-    $mensaje = '';
-}
-?>
+if (isset($_SESSION['mensaje'])): ?>
+    <div class="alert">
+        <?php echo htmlspecialchars ($_SESSION['mensaje']); ?>
+    </div>
+<?php unset($_SESSION['mensaje']); endif; ?>
+
 
 <div class="container-login">
     <h2>Recuperar Contraseña</h2>
