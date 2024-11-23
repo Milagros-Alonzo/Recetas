@@ -27,12 +27,30 @@ $mensaje = SessionManager::getMessage();
             <div class="controller-container-receta">
                 <button 
                     type="submit" 
-                    id="actualizar-receta-user" 
+                    id="borrar-receta-user" 
+                    class="ov-btn-grow-skew-reverse"
                     name="action" 
-                    value="borrarComentario"
-                    <?php echo isset($_SESSION['user']) ? '' : 'data-logged-in="false"'; ?>
-                    onclick="return confirm('¿Estás seguro de que deseas borrar este comentario?');"
-                >Borrar
+                    value="borrar-receta-user"
+                    onclick="return confirm('¿Estás seguro de que deseas borrar esta receta?');"
+                >Borrar Receta?
+                </button>
+                <button 
+                    type="submit" 
+                    id="actualizar-receta-user" 
+                    class="ov-btn-grow-skew-reverse"
+                    name="action" 
+                    value="actualizar-receta-user"
+                    onclick="return confirm('¿Estás seguro de que deseas actualizar esta receta?');"
+                >actualizar Receta?
+                </button>
+                <button 
+                    type="button" 
+                    id="subir-receta-user" 
+                    class="ov-btn-grow-skew-reverse"
+                    name="action" 
+                    value="subir-receta-user"
+                    onclick="window.location.href='<?= BASE_URL . '/views/recipes/add.php';?>'"
+                >crear una nueva Receta
                 </button>
             </div>     
             <div class="container-receta">

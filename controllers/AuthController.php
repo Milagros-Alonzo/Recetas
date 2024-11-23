@@ -35,19 +35,16 @@
                         'min' => 8,
                     ],
                 ];
-
-
+                
                 if($this->validator->validate($datos, $rules)){
                     $nombre = $datos['nombre'];
                     $email = $datos['email'];
                     $password = $datos['password'];
-                    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-
-
+                    
                     $this->usuarioModel = new User(
                         $nombre,
                         $email,
-                        $passwordHash,
+                        $password,
                     );
                     
                     // Llama al modelo para guardar los datos
@@ -58,10 +55,10 @@
                         $_SESSION['user'] = $id;
                         $_SESSION['user_name'] = $nombre;
                         $_SESSION['user_email'] = $email;
-                        $_SESSION['es_admin'] = $datos['rol'];
+                        $_SESSION['es_admin'] = $datos['rol'] ?? 'usuario';
     
                         // Devuelve un éxito indicando que la sesión se inició
-                        return header('location: ' . BASE_URL . '/index.php');
+                        //return header('location: ' . BASE_URL . '/index.php');
                     // llamar al constructor y asignar los valores
                     } else {
                         $_SESSION['mensaje'] = 'Error al registrar el usuario';
@@ -91,7 +88,6 @@
                     ],
                     'password' => [
                         'required' => true,
-                        'min' => 8
                     ]
                 ];
 
@@ -99,10 +95,9 @@
                     $email = $datos['email'];
                     $password = $datos['password'];
             
-            
                     // Buscar al usuario en la base de datos
                     $user = $this->usuarioModel->findUserByEmail($email);
-            
+                    
                     if (!$user) {
                         $_SESSION['mensaje'] = 'El usuario no existe.';
                         // Manejar errores de validación
