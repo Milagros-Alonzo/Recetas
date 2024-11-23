@@ -74,7 +74,7 @@ class Recipe
         $pdo = getConnection();
         $stmt = $pdo->prepare(
             "INSERT INTO recetas (user_id, titulo, descripcion, pasos, tiempo, imagen,tipo_comida)
-             VALUES (:user_id, :titulo, :descripcion, :pasos, :tiempo, :imagen)"
+             VALUES (:user_id, :titulo, :descripcion, :pasos, :tiempo, :imagen, :tipo_comida)"
         );
         $stmt->execute([
             'user_id' => $this->user_id,

@@ -49,6 +49,16 @@ class Validator
         return true;
     }
 
+   private function validateEnum($field, $value, $ruleValue)
+    {
+        // $ruleValue es un array de valores permitidos
+        if (is_array($ruleValue) && in_array($value, $ruleValue)) {
+            return true; // El valor es válido
+        }
+
+        return false; // El valor no está permitido
+    }
+
     private function validateEmail($field, $value, $ruleValue)
     {
         if ($ruleValue) {
