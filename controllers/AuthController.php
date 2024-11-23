@@ -58,7 +58,7 @@
                         $_SESSION['es_admin'] = $datos['rol'] ?? 'usuario';
     
                         // Devuelve un éxito indicando que la sesión se inició
-                        //return header('location: ' . BASE_URL . '/index.php');
+                        return header('location: ' . BASE_URL . '/index.php');
                     // llamar al constructor y asignar los valores
                     } else {
                         $_SESSION['mensaje'] = 'Error al registrar el usuario';

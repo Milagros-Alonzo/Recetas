@@ -11,6 +11,8 @@ include BASE_PATH . '/include/session/SessionManager.php';
 SessionManager::startSession();
 $CommentController = new CommentController();
 $recipeController = new RecipeController();
+$recipe_id = $_GET['id'];
+
 if(isset($_SESSION['user'])) {
     SessionManager::checkSessionTimeout();
     $user_id = $_SESSION['user'];
@@ -19,7 +21,6 @@ if(isset($_SESSION['user'])) {
         'receta_id' => $recipe_id,
     ]));   
 }
-$recipe_id = $_GET['id'];
 $commentAll = json_decode($CommentController->getComment([
     'receta_id' => $recipe_id,
 ])); 
