@@ -19,6 +19,7 @@ async function fetchRecetaDetail(id) {
         const recipe = await response.json();
 
         if (recipe) {
+            console.log(recipe)
             cargarRecetaDetail(recipe); // Asegúrate de acceder al primer elemento si es un array de objetos
         } else {
             console.warn('Error: posible problema con la respuesta del servidor', recipe);

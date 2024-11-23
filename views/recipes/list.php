@@ -24,16 +24,13 @@ $mensaje = SessionManager::getMessage();
             <hr>
         </div>        
         <div class="container-receta">
-
-
+            <!-- para la lista de tus recetas nececitas declarar un id -->
+            <?php $id = isset($_SESSION['user']) ? $_SESSION['user'] : ''; ?>
+            <!-- llamar el componente -->
+            <?php include BASE_PATH . '/include/component/all-recipe-component.php'; ?>
         </div>
     </div>
 
-<script>
-    const id = <?php echo $_SESSION['user'] ?? ''; ?>;
-    console.log(id)
-    <?php include BASE_PATH . '/public/js/fetch_getRecipe.js'; ?>
-</script>
 <?php
 //incluye el script para la actualizacion de la session y que se mantenga abierta
 include BASE_PATH . '/public/js/sessionScript.php';

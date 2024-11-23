@@ -25,7 +25,8 @@ $mensaje = SessionManager::getMessage();
         <hr>
     </div>        
     <div class="container-receta">
-        <!-- Aquí se mostrarán las recetas obtenidas con JavaScript -->
+        <!-- llamar el componente -->
+        <?php include BASE_PATH . '/include/component/all-recipe-component.php'; ?>
     </div>
 </div>
 
@@ -38,8 +39,6 @@ $mensaje = SessionManager::getMessage();
             $_SESSION['mensaje'] = '';
         ?>
     }
-    const id = '';
-    <?php include BASE_PATH . '/public/js/fetch_getRecipe.js'; ?>
 </script>
 
 <?php
