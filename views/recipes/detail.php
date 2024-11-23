@@ -42,7 +42,6 @@ $mensaje = SessionManager::getMessage();
 
                                 <p id="fecha"></p>
                                 <input type="hidden" id="selected-rating" name="rating" value="0"></input>
-                                <input type="hidden" id="action" ></input>
                                 <input type="hidden" id="receta_id" name="receta_id" value="<?php  echo isset($_GET['id']) ? $_GET['id'] : 0; ?>">
                                 <input type="hidden" id="user_id" name="user_id" value="<?php  echo isset($_SESSION['user']) ? $_SESSION['user']: ''; ?>">
                                 <button 
@@ -56,9 +55,10 @@ $mensaje = SessionManager::getMessage();
                                 </button>
 
                                 <button 
-                                    type="button" 
+                                    type="submit" 
                                     id="btn-subir-comentario" 
-                                    name="action" value="subirComentario"
+                                    name="action" 
+                                    value="subirComentario"
                                     <?php echo isset($_SESSION['user']) ? '' : 'data-logged-in="false"'; ?>
                                 >subir</button>
                             </div>
@@ -73,7 +73,7 @@ $mensaje = SessionManager::getMessage();
     </div>
 
     <script>   
-        <?php include BASE_PATH . '/public/js/fetch_recipeDetail.js'; ?>
+        <?php include BASE_PATH . '/public/js/fetch_recipeDetail.js'; ?>;
         <?php 
             if(isset($_SESSION['user'])) {
                 include BASE_PATH . '/public/js/fetch_comments.js'; 
@@ -81,10 +81,12 @@ $mensaje = SessionManager::getMessage();
         ?>
         
         document.addEventListener('DOMContentLoaded', function() {
-                let receta_id = <?php  echo isset($_GET['id']) ? $_GET['id'] : 0; ?>;
-                let user_id =  <?php  echo isset($_SESSION['user']) ? $_SESSION['user']: ''; ?>;
+                let receta_id = "<?php  echo isset($_GET['id']) ? $_GET['id'] : 0; ?>";
+                let user_id =  "<?php  echo isset($_SESSION['user']) ? $_SESSION['user']: ''; ?>";
 
-                if(getComment_id) getComment_id(receta_id, user_id)
+                if (typeof getComment_id === 'function') {
+                    getComment_id(receta_id, user_id);
+                }
                 fetchRecetaDetail(receta_id);
                 getCommentAll(receta_id);
         });
@@ -104,6 +106,24 @@ $mensaje = SessionManager::getMessage();
             // Verificar si el usuario está logueado
             if (this.getAttribute('data-logged-in') === 'false') {
                 alert('Debes iniciar sesión para poder subir un comentario.');
+                e.preventDefault();
+            } else {
+                if(this.innerText === 'actualizar') {
+                    return;
+                }
+                // Si está logueado, permite el envío
+                document.getElementById('subir-comentario').submit();
+            }
+        });
+
+
+        //manejas el bootn se subir comentarios
+        document.getElementById('btn-borrar-comentario').addEventListener('click', function(e) {
+            // Verificar si el usuario está logueado
+            if (this.getAttribute('data-logged-in') === 'false') {
+                e.preventDefault();
+                alert('Debes iniciar sesión para poder borrar un comentario.');
+                return;
             } else {
                 if(this.innerText === 'actualizar') {
                     return;

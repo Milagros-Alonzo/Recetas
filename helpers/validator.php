@@ -108,12 +108,26 @@ class Validator
 
     private function validateImage($field, $value, $ruleValue)
     {
-        if ($ruleValue && isset($value['tmp_name'])) {
+        // Verificar que la validación está activa y que el archivo fue subido
+        if ($ruleValue && isset($value['tmp_name']) && is_uploaded_file($value['tmp_name'])) {
+            // Validar el tipo MIME permitido
             $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-            return in_array($value['type'], $allowedTypes);
+            if (!in_array($value['type'], $allowedTypes)) {
+                return false;
+            }
+    
+            // Validar el archivo usando getimagesize
+            $imageInfo = getimagesize($value['tmp_name']);
+            if ($imageInfo === false) {
+                return false; // No es una imagen válida
+            }
+    
+            return true; // El archivo es una imagen válida
         }
-        return true;
+    
+        return false; // No es un archivo válido
     }
+    
 
     private function validateArray($field, $value, $ruleValue)
     {
@@ -132,7 +146,7 @@ class Validator
     }
 
     // Validar y cargar imagen
-    private function uploadImage($file, $uploadDir)
+    public function uploadImage($file, $uploadDir)
     {
         // Verificar errores
         if ($file['error'] !== UPLOAD_ERR_OK) {

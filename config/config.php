@@ -1,17 +1,13 @@
 <?php
-define('BASE_PATH', dirname(__DIR__)); 
 
-require_once BASE_PATH . '/helpers/envLoader.php';
+    define('DB_HOST', 'localhost');
+    define('DB_USER', 'recetas');
+    define('DB_PASSWORD', 'recetas');
+    define('DB_NAME', 'recetas_web');
 
-// Cargar variables de entorno
-loadEnv(BASE_PATH . '/.env');
+    define('BASE_PATH', dirname(__DIR__)); 
+    define('BASE_URL', '/PROYECTO_FINAL/Recetas'); 
 
-define('BASE_URL', getenv('BASE_URL')); 
-define('DB_HOST', getenv('DB_HOST'));
-define('DB_USER', getenv('DB_USER'));
-define('DB_PASSWORD', getenv('DB_PASSWORD'));
-define('DB_NAME', getenv('DB_NAME'));
-
-define('CONEXION_DB', BASE_PATH . '/helpers/databaseConexion.php');
+    define('CONEXION_DB', '/PROYECTO_FINAL/Recetas/helpers/databaseConexion.php');
 
 ?>
