@@ -42,7 +42,20 @@ class Recipe
     public static function getByUserId($id)
     {
         $pdo = getConnection();
-        $stmt = $pdo->prepare("SELECT * FROM recetas WHERE user_id = :id");
+        $stmt = $pdo->prepare("
+            SELECT 
+                recetas.*,
+                usuarios.nombre AS nombre_usuario
+            FROM 
+                recetas
+            INNER JOIN 
+                usuarios 
+            ON 
+                recetas.user_id = usuarios.id
+            WHERE 
+                recetas.user_id = :id
+        ");
+    
         $stmt->execute(['id' => $id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

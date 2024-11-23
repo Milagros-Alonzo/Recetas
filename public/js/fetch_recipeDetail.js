@@ -3,7 +3,6 @@
 *si se quiere obtener las recetas por id o no se pone null
 *
 */
-console.log('hola')
 
 async function fetchRecetaDetail(id) {
     console.log(id)
@@ -17,13 +16,13 @@ async function fetchRecetaDetail(id) {
             throw new Error('Error en la solicitud');
         }
 
-        const result = await response.json();
+        const recipe = await response.json();
 
-        if (result.success) {
-            console.log('Detalle de la Receta:', result.data);
-            cargarRecetaDetail(result.data); // Asegúrate de acceder al primer elemento si es un array de objetos
+        if (recipe) {
+            console.log(recipe)
+            cargarRecetaDetail(recipe); // Asegúrate de acceder al primer elemento si es un array de objetos
         } else {
-            console.error('Error:', result.message);
+            console.warn('Error: posible problema con la respuesta del servidor', recipe);
         }
     } catch (error) {
         console.error('Error al obtener los detalles de la receta:', error);
@@ -38,13 +37,16 @@ function cargarRecetaDetail(receta) {
     }
     const recetaFinal = receta[0];
     const ingredienteFinal = receta[1]
-    console.log(recetaFinal)
-    console.log(receta[1])
+
     const container = document.querySelector('.detalle-receta');
 
     container.innerHTML = `
+<<<<<<< HEAD
         <h1>Receta: ${recetaFinal[0]['titulo'] ?? 'Título no disponible'}</h1>
         <h2>Receta: ${recetaFinal[0]['tipo_comida'] ?? 'Título no disponible'}</h2>
+=======
+        <h1>Receta: ${recetaFinal[0]['titulo'] ?? 'Título no disponible'}, id: ${recetaFinal[0]['id']}</h1>
+>>>>>>> 97b7aed48b692d57c21393a2370beb144878f547
         <div class="imagen">
             <img class="img-index" src="<?php echo BASE_URL; ?>/public/img/${recetaFinal[0]['imagen']}" alt="Receta ${recetaFinal[0]['titulo']}">
         </div>

@@ -22,18 +22,46 @@ $mensaje = SessionManager::getMessage();
                 </div>
             </div>
             <hr>
-        </div>        
-        <div class="container-receta">
-
-
-        </div>
+        </div>   
+        <form action="">
+            <div class="controller-container-receta">
+                <button 
+                    type="submit" 
+                    id="borrar-receta-user" 
+                    class="ov-btn-grow-skew-reverse"
+                    name="action" 
+                    value="borrar-receta-user"
+                    onclick="return confirm('¿Estás seguro de que deseas borrar esta receta?');"
+                >Borrar Receta?
+                </button>
+                <button 
+                    type="submit" 
+                    id="actualizar-receta-user" 
+                    class="ov-btn-grow-skew-reverse"
+                    name="action" 
+                    value="actualizar-receta-user"
+                    onclick="return confirm('¿Estás seguro de que deseas actualizar esta receta?');"
+                >actualizar Receta?
+                </button>
+                <button 
+                    type="button" 
+                    id="subir-receta-user" 
+                    class="ov-btn-grow-skew-reverse"
+                    name="action" 
+                    value="subir-receta-user"
+                    onclick="window.location.href='<?= BASE_URL . '/views/recipes/add.php';?>'"
+                >crear una nueva Receta
+                </button>
+            </div>     
+            <div class="container-receta">
+                <!-- para la lista de tus recetas nececitas declarar un id -->
+                <?php $id = isset($_SESSION['user']) ? $_SESSION['user'] : ''; ?>
+                <!-- llamar el componente -->
+                <?php include BASE_PATH . '/include/component/all-recipe-component.php'; ?>
+            </div>
+        </form>
     </div>
 
-<script>
-    const id = <?php echo $_SESSION['user'] ?? ''; ?>;
-    console.log(id)
-    <?php include BASE_PATH . '/public/js/fetch_getRecipe.js'; ?>
-</script>
 <?php
 //incluye el script para la actualizacion de la session y que se mantenga abierta
 include BASE_PATH . '/public/js/sessionScript.php';
