@@ -130,7 +130,7 @@
                     $_SESSION['user_name'] = $user['nombre'];
                     $_SESSION['user_email'] = $user['email'];
                     $_SESSION['es_admin'] = $user['rol'] ?? 'usuario';
-            
+                    
                     return header("Location: " . BASE_URL . "/index.php");
                 } else {
                     // Datos no válidos, obtener errores

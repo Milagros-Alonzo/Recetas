@@ -57,7 +57,7 @@ class RecipeController
                     'minItems' => 1
                 ],
                 'imagen' => [
-                    'required' => true,
+                    'required' => false,
                     'image' => true
                 ],
                 'tipo_comida' => [
@@ -338,19 +338,31 @@ class RecipeController
             try {
                 $recipes = Recipe::getAll();
 
+                
+                
+                // Añadir ingredientes a cada receta
+                foreach ($recipes as &$recipe) { // Referencia (&) para modificar directamente el arreglo
+                    $ingredients = Ingredient::getByRecetaId($recipe['id']); // Obtener ingredientes de la receta
+                    $recipe['ingrediente'] = $ingredients; // Añadir ingredientes al arreglo de la receta
+                }
 
-            return json_encode($recipes);
-        } catch (Exception $e) {
+                return json_encode($recipes);
+                } catch (Exception $e) {
 
-            return json_encode($e->getMessage());
-        }
-    }
+                    return json_encode($e->getMessage());
+                }
+            }
 
     public function getRecipe($id)
     {
         try {
             $recipes = Recipe::getByUserId($id);
 
+          // Añadir ingredientes a cada receta
+            foreach ($recipes as &$recipe) { // Referencia (&) para modificar directamente el arreglo
+                $ingredients = Ingredient::getByRecetaId($recipe['id']); // Obtener ingredientes de la receta
+                $recipe['ingrediente'] = $ingredients; // Añadir ingredientes al arreglo de la receta
+            }
 
             // Devolver la respuesta en formato JSON
             return json_encode($recipes);

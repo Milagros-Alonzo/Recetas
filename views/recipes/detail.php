@@ -74,11 +74,11 @@ $mensaje = SessionManager::getMessage();
                             </div>
                             <div class="btn-container">
                                 <div class="rating" id="rating">
-                                    <i class="fa-regular fa-star" data-value="1"></i>
-                                    <i class="fa-regular fa-star" data-value="2"></i>
-                                    <i class="fa-regular fa-star" data-value="3"></i>
-                                    <i class="fa-regular fa-star" data-value="4"></i>
-                                    <i class="fa-regular fa-star" data-value="5"></i>
+                                    <i class="fa-regular fa-star real" data-value="1"></i>
+                                    <i class="fa-regular fa-star real" data-value="2"></i>
+                                    <i class="fa-regular fa-star real" data-value="3"></i>
+                                    <i class="fa-regular fa-star real" data-value="4"></i>
+                                    <i class="fa-regular fa-star real" data-value="5"></i>
                                 </div>
 
                                 <p id="fecha"></p>
@@ -109,26 +109,43 @@ $mensaje = SessionManager::getMessage();
                 <div id="comentarios-lista-container">
                     <?php if (!empty($commentAll)): ?>
                         <?php foreach ($commentAll as $comment): ?>
-                            
-                            <?= var_dump($comment->user_id) ?>
-                            <?php if($comment->user_id != $_GET['id']): ?>
+                            <?php if($comment->user_id != $_SESSION['now_user_id']): ?>
+                                <form action="<?php echo BASE_URL . '/controllers/CommentController.php'; ?>" method="post" style="width: 100%; height: 100%;">
                                 <div class="comentario">
-                                    <div class="imagen-perfil-container"> 
-                                        <img 
+                                        <input type="hidden" name="commentId" value="<?php echo $comment->id; ?>">
+                                        <input type="hidden" name="receta_id" value="<?php echo $comment->receta_id; ?>">
+
+                                        <div class="imagen-perfil-container"> 
+                                            <img 
                                             src="<?= BASE_URL; ?>/public/img/<?= $comment->imagen_perfil ?? 'default.png'; ?>" 
                                             class="imagen-perfil"
-                                        >
-                                    </div>
-                                    <div class="comentario-contenido">
-                                        <div class="usuario"><?= htmlspecialchars($comment->nombre_usuario); ?></div>
-                                        <div class="texto"><?= htmlspecialchars($comment->comentario); ?></div>
-                                        <div class="rating">
-                                            <?php for ($i = 0; $i < 5; $i++): ?>
-                                                <i class="<?= $i < $comment->estrellas ? 'fa-solid' : 'fa-regular'; ?> fa-star"></i>
-                                            <?php endfor; ?>
+                                            >
+                                        </div>
+                                        <div class="comentario-contenido">
+                                            <div class="usuario"><?= htmlspecialchars($comment->nombre_usuario); ?></div>
+                                            <div class="texto"><?= htmlspecialchars($comment->comentario); ?></div>
+                                            <div class="btn-container" style="display:flex; justify-content: space-between;">
+                                                <div class="rating">
+                                                    <?php for ($i = 0; $i < 5; $i++): ?>
+                                                        <i class="<?= $i < $comment->estrellas ? 'fa-solid' : 'fa-regular'; ?> fa-star"></i>
+                                                    <?php endfor; ?>
+                                                </div>
+                                                <?php if(isset($_SESSION['es_admin']) && $_SESSION['es_admin'] ==  'administrador'): ?>
+                                                    <button 
+                                                        style="margin-right: 50px; margin-top:10px; width:100px;"
+                                                        type="submit" 
+                                                        id="btn-borrar-comentario" 
+                                                        name="action" 
+                                                        value="borrarComentarioAdmin"
+                                                        <?php echo isset($_SESSION['user']) ? '' : 'data-logged-in="false"'; ?>
+                                                        onclick="return confirm('¿Estás seguro de que deseas borrar este comentario?');"
+                                                    >Borrar
+                                                    </button>
+                                                <?php endif ?>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </form>
                             <?php endif; ?>
                         <?php endforeach; ?>
                     <?php endif; ?>
@@ -231,7 +248,7 @@ $mensaje = SessionManager::getMessage();
 
 
         //manejar la funcionalidad de las estrellas
-        const stars = document.querySelectorAll('.rating .fa-star');
+        const stars = document.querySelectorAll('.rating .fa-star.real');
         const ratingDisplay = document.getElementById('selected-rating');
         stars.forEach(star => {
             
