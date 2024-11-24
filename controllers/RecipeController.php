@@ -58,6 +58,10 @@ class RecipeController {
                     'imagen' => [
                         'required' => true,
                         'image' => true
+                    ],
+                    'tipo_comida' => [
+                        'required' => true,
+                        'enum' => ['Desayunos', 'Almuerzos', 'Cenas']
                     ]
                 ];
                 
@@ -70,6 +74,8 @@ class RecipeController {
                     $tiempo = $data['tiempo'];
                     $ingredientes = $data['ingrediente'];
                     $imagen = $file['imagen'];
+                    $tipo_comida = $data['tipo_comida'];
+
                     
     
                     //validaciones
@@ -91,7 +97,8 @@ class RecipeController {
                         $descripcion,
                         $pasos,
                         $tiempo,
-                        $uniqueName
+                        $uniqueName,
+                        $tipo_comida // Pasar el tipo de comida
                     );
     
                     $id = $this->recetaModel->save();
