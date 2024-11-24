@@ -96,6 +96,53 @@ class Recipe
         return $stmt->execute(['id' => $id]);
     }
 
+    public static function search($filters)
+{
+    $pdo = getConnection();
+
+    // Base de la consulta
+    $query = "
+        SELECT 
+            recetas.*,
+            usuarios.nombre AS nombre_usuario
+        FROM recetas
+        INNER JOIN usuarios ON recetas.user_id = usuarios.id
+        LEFT JOIN ingredientes ON recetas.id = ingredientes.receta_id
+        WHERE 1=1
+    ";
+
+    // Array para parámetros de consulta
+    $params = [];
+
+    // Construir condiciones dinámicas
+    if (!empty($filters['titulo'])) {
+        $query .= " AND recetas.titulo LIKE :titulo";
+        $params['titulo'] = '%' . $filters['titulo'] . '%';
+    }
+
+    if (!empty($filters['tipo_comida'])) {
+        $query .= " AND recetas.tipo_comida = :tipo_comida";
+        $params['tipo_comida'] = $filters['tipo_comida'];
+    }
+
+    if (!empty($filters['ingrediente'])) {
+        $query .= " AND ingredientes.ingrediente LIKE :ingrediente";
+        $params['ingrediente'] = '%' . $filters['ingrediente'] . '%';
+    }
+
+    if (!empty($filters['tiempo'])) {
+        $query .= " AND recetas.tiempo <= :tiempo";
+        $params['tiempo'] = $filters['tiempo'];
+    }
+
+    // Preparar y ejecutar consulta
+    $stmt = $pdo->prepare($query);
+    $stmt->execute($params);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
     
     // Getters y Setters
 
