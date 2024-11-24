@@ -10,9 +10,7 @@ async function fetchRecetas() {
     try {
         user_id = id ? id : null;
 
-        const url = user_id
-            ? `<?php echo BASE_URL . '/controllers/RecipeController.php?action=getRecipe&id=${user_id}'; ?>`
-            : `<?php echo BASE_URL . '/controllers/RecipeController.php?action=getRecipe'; ?>`;
+        const url = `<?php echo BASE_URL . '/controllers/RecipeController.php?action=getRecipe&id=${user_id}'; ?>`;
         const response = await fetch(url, {
             method: 'GET',
         });

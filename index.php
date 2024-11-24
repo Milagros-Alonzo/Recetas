@@ -93,6 +93,15 @@ document.getElementById('searchInput').addEventListener('keyup', function (event
             $_SESSION['mensaje'] = '';
         ?>
     }
+    const cards = document.querySelectorAll('.receta-contenedor');
+
+    cards.forEach(card => {
+            card.addEventListener('click', () => locationCard(card));
+        });
+
+        function locationCard(card) {
+                window.location.href='<?= BASE_URL . '/views/recipes/detail.php?id='; ?>' + card.id
+        }
 </script>
 
 <?php

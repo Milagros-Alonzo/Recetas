@@ -96,6 +96,54 @@ class Recipe
         return $stmt->execute(['id' => $id]);
     }
 
+    public function update($id)
+    {
+        $pdo = getConnection();
+        $stmt = $pdo->prepare(
+            "UPDATE recetas 
+            SET titulo = :titulo, 
+                descripcion = :descripcion, 
+                pasos = :pasos, 
+                tiempo = :tiempo, 
+                imagen = :imagen,
+                tipo_comida = :tipo_comida
+            WHERE id = :id"
+        );
+
+        return $stmt->execute([
+            'id' => $id,
+            'titulo' => $this->titulo,
+            'descripcion' => $this->descripcion,
+            'pasos' => $this->pasos,
+            'tiempo' => $this->tiempo,
+            'imagen' => $this->imagen,
+            'tipo_comida' => $this->tipoComida
+        ]);
+    }
+
+    public function updateNoImg($id)
+    {
+        $pdo = getConnection();
+        $stmt = $pdo->prepare(
+            "UPDATE recetas 
+            SET titulo = :titulo, 
+                descripcion = :descripcion, 
+                pasos = :pasos, 
+                tiempo = :tiempo,
+                tipo_comida = :tipo_comida
+            WHERE id = :id"
+        );
+
+        return $stmt->execute([
+            'id' => $id,
+            'titulo' => $this->titulo,
+            'descripcion' => $this->descripcion,
+            'pasos' => $this->pasos,
+            'tiempo' => $this->tiempo,
+            'tipo_comida' => $this->tipoComida
+        ]);
+    }
+
     public static function search($filters)
 {
     $pdo = getConnection();
@@ -142,8 +190,6 @@ class Recipe
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-
-    
     // Getters y Setters
 
     public function getUserId() { return $this->user_id; }

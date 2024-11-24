@@ -13,6 +13,7 @@ $CommentController = new CommentController();
 $recipeController = new RecipeController();
 $recipe_id = $_GET['id'];
 
+
 if(isset($_SESSION['user'])) {
     SessionManager::checkSessionTimeout();
     $user_id = $_SESSION['user'];
@@ -28,7 +29,6 @@ $receta_detail = json_decode($recipeController->getRecipeDetail([
     'recipe_id' => $recipe_id,
 ]));
 $mensaje = SessionManager::getMessage();
-
 
 
 ?>
