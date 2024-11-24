@@ -1,116 +1,117 @@
 <?php
-    require_once __DIR__ . '/../models/Recipe.php';
-    require_once __DIR__ . '/../models/Ingredient.php';
-    require_once __DIR__ . '/../models/Comment.php';
+require_once __DIR__ . '/../models/Recipe.php';
+require_once __DIR__ . '/../models/Ingredient.php';
+require_once __DIR__ . '/../models/Comment.php';
 
 
-    require_once __DIR__ . '/../helpers/Validator.php';
-    require_once __DIR__ . '/../config/config.php'; 
+require_once __DIR__ . '/../helpers/Validator.php';
+require_once __DIR__ . '/../config/config.php';
 
 
-class RecipeController {
+class RecipeController
+{
     private $recetaModel;
     private $ingredientModel;
     private $commentModel;
     private $validator;
 
-        public function __construct()
-        {
-            $this->recetaModel = new Recipe(); // Instancia del modelo
-            $this->ingredientModel = new Ingredient();
-            $this->commentModel = new Comment();
-            $this->validator = new Validator(); // Instancia del helper
-        }    
+    public function __construct()
+    {
+        $this->recetaModel = new Recipe(); // Instancia del modelo
+        $this->ingredientModel = new Ingredient();
+        $this->commentModel = new Comment();
+        $this->validator = new Validator(); // Instancia del helper
+    }
 
-        public function guardarReceta($data, $file) 
-        {
-            $datosCombinados = array_merge($_POST, $_FILES);
+    public function guardarReceta($data, $file)
+    {
+        $datosCombinados = array_merge($_POST, $_FILES);
 
-            session_start();
-            try {
+        session_start();
+        try {
 
-                $rules = [
-                    'titulo' => [
-                        'required' => true,
-                        'string' => true,
-                        'max' => 200
-                    ],
-                    'descripcion' => [
-                        'required' => true,
-                        'string' => true,
-                        'max' => 2000
-                    ],
-                    'pasos' => [
-                        'required' => true,
-                        'string' => true,
-                        'max' => 2000
-                    ],
-                    'tiempo' => [
-                        'required' => true,
-                        'string' => true,
-                        'max' => 50
-                    ],
-                    'ingrediente' => [
-                        'required' => true,
-                        'array' => true,
-                        'minItems' => 1
-                    ],
-                    'imagen' => [
-                        'required' => true,
-                        'image' => true
-                    ],
-                    'tipo_comida' => [
-                        'required' => true,
-                        'enum' => ['Desayunos', 'Almuerzos', 'Cenas']
-                    ]
-                ];
-                
-                
-                if($this->validator->validate($datosCombinados, $rules)) {
-                    
-                    $titulo = $data['titulo'];
-                    $descripcion = $data['descripcion'];
-                    $pasos = $data['pasos'];
-                    $tiempo = $data['tiempo'];
-                    $ingredientes = $data['ingrediente'];
-                    $imagen = $file['imagen'];
-                    $tipo_comida = $data['tipo_comida'];
+            $rules = [
+                'titulo' => [
+                    'required' => true,
+                    'string' => true,
+                    'max' => 200
+                ],
+                'descripcion' => [
+                    'required' => true,
+                    'string' => true,
+                    'max' => 2000
+                ],
+                'pasos' => [
+                    'required' => true,
+                    'string' => true,
+                    'max' => 2000
+                ],
+                'tiempo' => [
+                    'required' => true,
+                    'string' => true,
+                    'max' => 50
+                ],
+                'ingrediente' => [
+                    'required' => true,
+                    'array' => true,
+                    'minItems' => 1
+                ],
+                'imagen' => [
+                    'required' => true,
+                    'image' => true
+                ],
+                'tipo_comida' => [
+                    'required' => true,
+                    'enum' => ['Desayunos', 'Almuerzos', 'Cenas']
+                ]
+            ];
 
-                    
-    
-                    //validaciones
-                    if (!isset($_SESSION['user'])) {
-                        return header('location: ' . BASE_URL . '/views/auth/login.php');              
-                    }
-    
-                    // Subir imagen (si existe)
-                    $uniqueName = null;
-                    if (!empty($imagen['tmp_name'])) {
-                        $uniqueName = $this->validator->uploadImage($imagen, $_SERVER['DOCUMENT_ROOT'] . '/PROYECTO_FINAL/Recetas/public/img/');
-                    }
 
-       
-                    //instancasr recetas y guardar la base de datos
-                    $this->recetaModel = new Recipe(
-                        $_SESSION['user'],
-                        $titulo,
-                        $descripcion,
-                        $pasos,
-                        $tiempo,
-                        $uniqueName,
-                        $tipo_comida // Pasar el tipo de comida
-                    );
-    
-                    $id = $this->recetaModel->save();
-                    
-                    
-                    
-                    //isntancias de ingredientes y guardar la base de datos
-                    $this->ingredientModel = new Ingredient(
-                        $id,
-                        $ingredientes
-                    );
-                    $this->ingredientModel->save();
+            if ($this->validator->validate($datosCombinados, $rules)) {
+
+                $titulo = $data['titulo'];
+                $descripcion = $data['descripcion'];
+                $pasos = $data['pasos'];
+                $tiempo = $data['tiempo'];
+                $ingredientes = $data['ingrediente'];
+                $imagen = $file['imagen'];
+                $tipo_comida = $data['tipo_comida'];
+
+
+
+                //validaciones
+                if (!isset($_SESSION['user'])) {
+                    return header('location: ' . BASE_URL . '/views/auth/login.php');
+                }
+
+                // Subir imagen (si existe)
+                $uniqueName = null;
+                if (!empty($imagen['tmp_name'])) {
+                    $uniqueName = $this->validator->uploadImage($imagen, $_SERVER['DOCUMENT_ROOT'] . '/PROYECTO_FINAL/Recetas/public/img/');
+                }
+
+
+                //instancasr recetas y guardar la base de datos
+                $this->recetaModel = new Recipe(
+                    $_SESSION['user'],
+                    $titulo,
+                    $descripcion,
+                    $pasos,
+                    $tiempo,
+                    $uniqueName,
+                    $tipo_comida // Pasar el tipo de comida
+                );
+
+                $id = $this->recetaModel->save();
+
+
+
+                //isntancias de ingredientes y guardar la base de datos
+                $this->ingredientModel = new Ingredient(
+                    $id,
+                    $ingredientes
+                );
+                $this->ingredientModel->save();
 
 
     
@@ -166,6 +167,11 @@ class RecipeController {
                         'array' => true,
                         'minItems' => 1
                     ],
+                'tipo_comida' => [
+                    'required' => true,
+                    'enum' => ['Desayunos', 'Almuerzos', 'Cenas']
+                ]
+                    
 
                 ];
 
@@ -186,6 +192,9 @@ class RecipeController {
                     $tiempo = $data['tiempo'];
                     $ingredientes = $data['ingrediente'];
                     $imagen = $file['imagen'];
+                    $tipo_comida = $data['tipo_comida'];
+                
+
                     
                     // Verificar si el usuario está autenticado
                     if (!isset($_SESSION['user'])) {
@@ -230,7 +239,8 @@ class RecipeController {
                             $descripcion,
                             $pasos,
                             $tiempo,
-                            $uniqueName
+                            $uniqueName,
+                            $tipo_comida
                         );
                         
                     
@@ -242,8 +252,10 @@ class RecipeController {
                                 $titulo,
                                 $descripcion,
                                 $pasos,
-                                $tiempo,
+                                $tiempo
+                               
                             );
+                            $this->recetaModel->setTipoComida($tipo_comida);
                             
                         
                             $this->recetaModel->updateNoImg($id);
@@ -327,44 +339,61 @@ class RecipeController {
                 $recipes = Recipe::getAll();
 
 
-                return json_encode($recipes);
+            return json_encode($recipes);
+        } catch (Exception $e) {
 
-            }catch (Exception $e) {
-
-                return json_encode($e->getMessage());
-            }
+            return json_encode($e->getMessage());
         }
+    }
 
-        public function getRecipe($id) {
-            try {
-                $recipes = Recipe::getByUserId($id);
-        
-        
-                // Devolver la respuesta en formato JSON
-                return json_encode($recipes);
+    public function getRecipe($id)
+    {
+        try {
+            $recipes = Recipe::getByUserId($id);
 
-            }catch (Exception $e) {
-                return json_encode($e->getMessage());
-            }
+
+            // Devolver la respuesta en formato JSON
+            return json_encode($recipes);
+        } catch (Exception $e) {
+            return json_encode($e->getMessage());
         }
+    }
 
-        public function getRecipeDetail($id) {
-            $id = $id['recipe_id'];
-            try {
-                $recipes = Recipe::getById($id);
-                $ingredient = Ingredient::getByRecetaId($id);
+    public function getRecipeDetail($id)
+    {
+        $id = $id['recipe_id'];
+        try {
+            $recipes = Recipe::getById($id);
+            $ingredient = Ingredient::getByRecetaId($id);
 
-                return json_encode([$recipes, $ingredient]);
-            }catch (Exception $e) {
+            return json_encode([$recipes, $ingredient]);
+        } catch (Exception $e) {
 
-                return json_encode($e->getMessage());
-            }
+            return json_encode($e->getMessage());
         }
+    }
 
+    public function buscarRecetas($data)
+    {
+        try {
+            $filters = [
+                'titulo' => $data['titulo'] ?? null,
+                'tipo_comida' => $data['tipo_comida'] ?? null,
+                'ingrediente' => $data['ingrediente'] ?? null,
+                'tiempo' => $data['tiempo'] ?? null,
+            ];
+
+            $recipes = Recipe::search($filters);
+
+            return json_encode($recipes);
+        } catch (Exception $e) {
+            return json_encode(['error' => $e->getMessage()]);
+        }
+    }
 }
 
 
-    /*
+/*
     *
     * Procesar solicitud del form de login
     *

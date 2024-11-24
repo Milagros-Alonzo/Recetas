@@ -122,8 +122,7 @@ $mensaje = SessionManager::getMessage();
             if (confirm.classList.contains('actualizar')) {
                 if(inputValue.value) {
                     const url = `<?= BASE_URL . '/views/recipes/add.php?getId=';?>${inputValue.value}`;
-                    console.log(url)
-                    alert('debe seleccionar una receta')
+                  
                     window.location.href=url
                 }else {
                     alert('debe seleccionar una receta')
