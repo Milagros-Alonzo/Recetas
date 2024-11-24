@@ -43,7 +43,7 @@ $mensaje = SessionManager::getMessage();
             <?php if(isset($receta_detail)): ?>
                 <?php foreach($receta_detail[0] as $receta): ?>
                     <?php if(!empty($receta)): ?>
-                        <h1>Receta: <?= $receta->titulo ?? 'Título no disponible' ?>, id: <?= $receta->id ?? '' ?></h1>
+                        <h1>Receta: <?= $receta->titulo ?? 'Título no disponible' ?></h1>
                         <div class="imagen">
                             <img 
                                 class="img-index" 
