@@ -93,6 +93,50 @@ class Recipe
         return $stmt->execute(['id' => $id]);
     }
 
+    public function update($id)
+    {
+        $pdo = getConnection();
+        $stmt = $pdo->prepare(
+            "UPDATE recetas 
+            SET titulo = :titulo, 
+                descripcion = :descripcion, 
+                pasos = :pasos, 
+                tiempo = :tiempo, 
+                imagen = :imagen
+            WHERE id = :id"
+        );
+
+        return $stmt->execute([
+            'id' => $id,
+            'titulo' => $this->titulo,
+            'descripcion' => $this->descripcion,
+            'pasos' => $this->pasos,
+            'tiempo' => $this->tiempo,
+            'imagen' => $this->imagen
+        ]);
+    }
+
+    public function updateNoImg($id)
+    {
+        $pdo = getConnection();
+        $stmt = $pdo->prepare(
+            "UPDATE recetas 
+            SET titulo = :titulo, 
+                descripcion = :descripcion, 
+                pasos = :pasos, 
+                tiempo = :tiempo
+            WHERE id = :id"
+        );
+
+        return $stmt->execute([
+            'id' => $id,
+            'titulo' => $this->titulo,
+            'descripcion' => $this->descripcion,
+            'pasos' => $this->pasos,
+            'tiempo' => $this->tiempo,
+        ]);
+    }
+
     
     // Getters y Setters
 

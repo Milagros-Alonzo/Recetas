@@ -10,54 +10,80 @@ SessionManager::startSession();
 SessionManager::requireAuth();
 if(isset($_SESSION['user'])) {
     SessionManager::checkSessionTimeout();
+    if(isset($_SESSION['now_user_id']) && isset($_GET['getId'])) {
+        if($_SESSION['user'] === $_SESSION['now_user_id']) {
+            include BASE_PATH . '/controllers/RecipeController.php';
+            $recipeController = new RecipeController();
+            $recetas = json_decode($recipeController->getRecipeDetail([ 'recipe_id' => $_GET['getId'] ]));
+            $receta = $recetas[0][0] ?? []; // Primera parte: datos de la receta
+            $ingredientes = $recetas[1] ?? []; // Segunda parte: lista de ingredientes
+        }
+    }
 }
 $mensaje = SessionManager::getMessage();
+
+
+
 ?>
 
 <div class="main-content">
-<div class="form-container-receta">
-        <h1>Agregar de Recetas</h1>
+    <div class="form-container-receta">
+        <h1>Actualizar Receta</h1>
         <hr>
-        <form  id="recipeForm" action="<?php echo BASE_URL . '/controllers/RecipeController.php'; ?>" method="post" enctype="multipart/form-data">
+        <form id="recipeForm" action="<?php echo BASE_URL . '/controllers/RecipeController.php'; ?>" method="post" enctype="multipart/form-data">
+            <!-- Campo oculto para el ID de la receta -->
+            <input type="hidden" name="id" value="<?php echo htmlspecialchars($receta->id ?? ''); ?>">
+
             <div class="form-group">
                 <label for="titulo">Título</label>
-                <input type="text" id="titulo" name="titulo" maxlength="100" required>
+                <input type="text" id="titulo" name="titulo" maxlength="100" value="<?php echo htmlspecialchars($receta->titulo ?? ''); ?>" required>
                 <div class="error-message" id="tituloError"></div>
             </div>
             <div class="form-group">
                 <label for="descripcion">Descripción</label>
-                <textarea id="descripcion" name="descripcion" required></textarea>
+                <textarea id="descripcion" name="descripcion" required><?php echo htmlspecialchars($receta->descripcion ?? ''); ?></textarea>
                 <div class="error-message" id="descripcionError"></div>
             </div>
             <div class="form-group">
                 <label for="pasos">Pasos:</label>
-                <textarea id="pasos" name="pasos" required></textarea>
+                <textarea id="pasos" name="pasos" required><?php echo htmlspecialchars($receta->pasos ?? ''); ?></textarea>
                 <div class="error-message" id="pasosError"></div>
             </div>
             <div class="form-group">
                 <label for="tiempo">Tiempo</label>
-                <input type="text" id="tiempo" name="tiempo" maxlength="50" required>
+                <input type="text" id="tiempo" name="tiempo" maxlength="50" value="<?php echo htmlspecialchars($receta->tiempo ?? ''); ?>" required>
                 <div class="error-message" id="tiempoError"></div>
             </div>
             <div class="form-group" style="display: flex">
                 <label for="newIngredient">Agregar un Ingrediente</label>
                 <input type="text" id="newIngredient" placeholder="Ejemplo: 1 Tomate" maxlength="40">
                 <button type="button" style="margin-left: 6px" onclick="AgregarIngredientes()">Agregar Ingrediente</button>
-
             </div>
             <div class="checkbox-group" id="checkboxGroup">
-                <!-- Los ingredientes aparecerán aquí -->
+                <!-- Mostrar los ingredientes actuales -->
+                <?php if (!empty($ingredientes)): ?>
+                    <?php foreach ($ingredientes as $ingrediente): ?>
+                        <div class="checkbox-item">
+                            <input readonly type="text" class="input-ingrediente" name="ingrediente[]" value="<?php echo htmlspecialchars($ingrediente->ingrediente ?? ''); ?>">
+                            <button type="button" class="delete-btn" onclick="this.parentElement.remove()">Eliminar</button>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
             <div class="form-group">
                 <label for="imagen">Imagen</label>
-                <input type="file" id="imagen" name="imagen" accept="image/*" required>
+                <input type="file" id="imagen" name="imagen" accept="image/*">
                 <div class="error-message" id="imagenError"></div>
                 <div id="vistaPrevia" style="margin-top: 20px;">
-                    <img id="imagenPreview" src="" alt="Vista previa" style="display: none; max-width: 100%; height: auto;">
+                    <?php if (!empty($receta->imagen)): ?>
+                        <img id="imagenPreview" src="<?php echo htmlspecialchars(BASE_URL . '/public/img/' . $receta->imagen); ?>" alt="Vista previa" style="max-width: 100%; height: auto;">
+                    <?php else: ?>
+                        <img id="imagenPreview" src="" alt="Vista previa" style="display: none; max-width: 100%; height: auto;">
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="form-actions">
-                <button type="submit" name="action" value="register">Guardar Receta</button>
+                <button type="submit" name="action" value="<?= isset($recetas) ? 'update' : 'register' ?>"><?= isset($recetas) ? 'Guardar Cambios' : 'Guardar Receta' ?></button>
             </div>
         </form>
     </div>
@@ -65,6 +91,7 @@ $mensaje = SessionManager::getMessage();
 
 
     <script>
+
     mensaje = <?php echo json_encode($mensaje); ?>;
     console.log(mensaje);
     if(mensaje) {

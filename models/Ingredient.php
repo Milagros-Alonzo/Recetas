@@ -53,8 +53,47 @@ class Ingredient
     public static function deleteById($id)
     {
         $pdo = getConnection();
-        $stmt = $pdo->prepare("DELETE FROM ingredientes WHERE id = :id");
+        $stmt = $pdo->prepare("DELETE FROM ingredientes WHERE receta_id = :id");
         return $stmt->execute(['id' => $id]);
+    }
+
+    public function update()
+    {
+        $pdo = getConnection();
+
+        // Iniciar una transacción para asegurar la consistencia
+        $pdo->beginTransaction();
+
+        try {
+            // Eliminar los ingredientes actuales de la receta
+            $stmtDelete = $pdo->prepare(
+                "DELETE FROM ingredientes WHERE receta_id = :receta_id"
+            );
+            $stmtDelete->execute(['receta_id' => $this->receta_id]);
+
+            // Insertar los nuevos ingredientes
+            $stmtInsert = $pdo->prepare(
+                "INSERT INTO ingredientes (receta_id, ingrediente) VALUES (:receta_id, :ingrediente)"
+            );
+
+            foreach ($this->ingredientes as $ingrediente) {
+                $stmtInsert->execute([
+                    'receta_id' => $this->receta_id,
+                    'ingrediente' => $ingrediente
+                ]);
+            }
+
+            // Confirmar la transacción
+            $pdo->commit();
+
+            return true; // Éxito
+        } catch (Exception $e) {
+            // Revertir la transacción en caso de error
+            $pdo->rollBack();
+
+            // Re-lanzar la excepción para manejarla fuera del método
+            throw $e;
+        }
     }
 
 
