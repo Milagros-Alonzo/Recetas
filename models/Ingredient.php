@@ -57,6 +57,7 @@ class Ingredient
         return $stmt->execute(['id' => $id]);
     }
 
+    /*
     public function update()
     {
         $pdo = getConnection();
@@ -95,6 +96,7 @@ class Ingredient
             throw $e;
         }
     }
+        */
 
 
     // Getters y Setters
