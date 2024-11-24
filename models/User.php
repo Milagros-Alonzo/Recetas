@@ -122,6 +122,55 @@ class user {
         $stmt->execute([':id' => $userId]);
     }
 
+    public function updateUser($id, $nombre = null, $email = null, $rol = null)
+{
+    $pdo = getConnection();
+
+    $fields = [];
+    $params = [':id' => $id];
+
+    if ($nombre) {
+        $fields[] = "nombre = :nombre";
+        $params[':nombre'] = $nombre;
+    }
+
+    if ($email) {
+        $fields[] = "email = :email";
+        $params[':email'] = $email;
+    }
+
+    if ($rol) {
+        $fields[] = "rol = :rol";
+        $params[':rol'] = $rol;
+    }
+
+    if (empty($fields)) {
+        return false; // No hay campos para actualizar
+    }
+
+    $sql = "UPDATE usuarios SET " . implode(', ', $fields) . " WHERE id = :id";
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute($params);
+    return $stmt->rowCount() > 0;
+}
+
+public function deleteUser($id)
+{
+    $pdo = getConnection();
+    $sql = "DELETE FROM usuarios WHERE id = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':id' => $id]);
+    return $stmt->rowCount() > 0;
+}
+public function getAllUsers()
+{
+    $pdo = getConnection();
+    $sql = "SELECT id, nombre, email, rol, fecha_registro FROM usuarios";
+    $stmt = $pdo->query($sql);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
     
 
  

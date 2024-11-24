@@ -25,9 +25,8 @@
         
         <?php if (isset($_SESSION['user'])): ?>
             <!-- si eres admin mostrar lo de abajo -->
-            <?php if ($_SESSION['es_admin'] === 'admin'): ?>
-                <li><a href="">Usuarios</a></li>
-                <li><a href="">Panel de Control</a></li>
+            <?php if ($_SESSION['es_admin'] === 'administrador'): ?>
+                <li><a href="<?php echo BASE_URL . '/views/admin/dashboard.php'; ?> ">Usuarios</a></li>
             <?php endif; ?>
                 <li><a href="<?php echo BASE_URL . '/include/session/cerrarSession.php'; ?> ">Cerrar Sesión</a></li>
             <?php endif; ?>
