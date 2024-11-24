@@ -8,6 +8,7 @@ if(isset($id) && $id != '') {
     if (isset($recetas[0]->user_id)) $_SESSION['now_user_id'] = $recetas[0]->user_id;
 }else {
     $recetas = json_decode($recipeController->getAllRecipe());
+    var_dump($recetas);
 }
 ?>
 <?php if(isset($recetas) && !empty($recetas)): ?>

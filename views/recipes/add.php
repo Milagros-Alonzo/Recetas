@@ -27,7 +27,7 @@ $mensaje = SessionManager::getMessage();
 ?>
 
 <div class="main-content">
-    <div class="form-container-receta">
+        <div class="form-container-receta">
         <h1>Actualizar Receta</h1>
         <hr>
         <form id="recipeForm" action="<?php echo BASE_URL . '/controllers/RecipeController.php'; ?>" method="post" enctype="multipart/form-data">
@@ -99,9 +99,7 @@ $mensaje = SessionManager::getMessage();
 </div>
 
 
-
-    <script>
-
+<script>
 
     mensaje = <?php echo json_encode($mensaje); ?>;
     console.log(mensaje);
