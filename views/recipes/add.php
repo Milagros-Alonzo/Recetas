@@ -60,8 +60,16 @@ $mensaje = SessionManager::getMessage();
             </div>
             <div class="form-group">
                 <label for="tiempo">Tiempo</label>
-                <input type="text" id="tiempo" name="tiempo" maxlength="50" value="<?php echo htmlspecialchars($receta->tiempo ?? ''); ?>" required>
-                <div class="error-message" id="tiempoError"></div>
+                <input 
+                    type="text" 
+                    id="tiempo" 
+                    name="tiempo" 
+                    maxlength="50" 
+                    value="<?php echo htmlspecialchars($receta->tiempo ?? ''); ?>" 
+                    required 
+                    placeholder="Ejemplo: 1.5 horas, 30 minutos"
+                >
+            <div class="error-message" id="tiempoError"></div>
             </div>
             <div class="form-group" style="display: flex">
                 <label for="newIngredient">Agregar un Ingrediente</label>
@@ -85,7 +93,7 @@ $mensaje = SessionManager::getMessage();
                 <div class="error-message" id="imagenError"></div>
                 <div id="vistaPrevia" style="margin-top: 20px;">
                     <?php if (!empty($receta->imagen)): ?>
-                        <img id="imagenPreview" src="<?php echo htmlspecialchars(BASE_URL . '/public/img/' . $receta->imagen); ?>" alt="Vista previa" style="max-width: 100%; height: auto;">
+                        <img id="imagenPreview" src="<?php echo htmlspecialchars(BASE_URL . '/public/img/' . $receta->imagen); ?>" alt="Vista previa" style="max-width: 100%; height: auto;" >
                     <?php else: ?>
                         <img id="imagenPreview" src="" alt="Vista previa" style="display: none; max-width: 100%; height: auto;">
                     <?php endif; ?>
@@ -190,6 +198,8 @@ $mensaje = SessionManager::getMessage();
 
         inputIngrediente.value = '';
     }
+
+
 </script>
 
 <?php

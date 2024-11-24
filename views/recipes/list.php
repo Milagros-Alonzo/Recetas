@@ -21,8 +21,6 @@ $mensaje = SessionManager::getMessage();
             <div class="search-box">
                 <button class="btn-search"><i class="fas fa-search"></i></button>
                 <input type="text" class="input-search" id="searchInput" placeholder="Escriba recetas o ingredientes para buscar...">
-                <div id="results">
-                </div>
             </div>
             <hr>
         </div>   
