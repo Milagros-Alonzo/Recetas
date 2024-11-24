@@ -10,17 +10,10 @@ if(isset($_SESSION['mensaje'])){
 }else {
     $mensaje = '';
 }
-
-if(isset($_SESSION['user'])){
-    if($_SESSION['es_admin'] === true){
-        //header("location: pages/adminHome.php");
-    }else {
-        //header("location: pages/Home.php");
-    }
-}
 ?>
 
-<div class="container">
+
+<div class="container-login">
     <!-- Login Form -->
     <div id="login-form" class="form-container active">
         <h2>Iniciar Sesión</h2>
@@ -36,6 +29,10 @@ if(isset($_SESSION['user'])){
             
             <button type="submit" name="action" value="login">Iniciar Sesión</button>
         </form>
+         <!-- Enlace para recuperar contraseña -->
+         <p class="forgot-password">
+            <a href="forgot_password.php">¿Olvidaste tu contraseña?</a>
+        </p>
         <p class="toggle-btn" onclick="toggleForms()">¿No tienes una cuenta? Regístrate aquí</p>
     </div>
 
@@ -60,11 +57,19 @@ if(isset($_SESSION['user'])){
 </div>
 
 <script>
+
+    function toggleForms() {
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+
+        loginForm.classList.toggle('active');
+        registerForm.classList.toggle('active');
+    }
     mensaje = <?php echo json_encode($mensaje); ?>;
     console.log(mensaje);
     if(mensaje) {
         alert(mensaje)
-
+        mensaje = '';
         <?php
             $_SESSION['mensaje'] = '';
         ?>

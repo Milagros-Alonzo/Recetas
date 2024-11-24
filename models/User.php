@@ -11,7 +11,17 @@ class user {
 
 
 
-    /*
+    // Constructor
+    public function __construct($nombre = null, $email = null,  $contrasena = null, $rol = 'usuario', $token_sesion = null)
+    {
+        $this->nombre = $nombre;
+        $this->email = $email;
+        $this->contrasena = $contrasena;
+        $this->rol = $rol;
+        $this->token_sesion = $token_sesion;
+    }
+ 
+     /*
     *
     *las consultas a base de datos
     *
@@ -53,19 +63,69 @@ class user {
 
         return $stmt->fetch(PDO::FETCH_ASSOC); // devuelve toda la info del usuario
     }
+ 
+    public function savePasswordResetToken($userId, $token)
+    {
+        $pdo = getConnection(); // Obtiene la conexión a la base de datos
+    
+        $sql = "UPDATE usuarios 
+                SET reset_token = :reset_token, reset_token_expire = DATE_ADD(NOW(), INTERVAL 1 HOUR) 
+                WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':reset_token' => $token,
+            ':id' => $userId
+        ]);
+    
+        return $stmt->rowCount() > 0; // Devuelve true si se actualizó al menos una fila
+    }
 
+    
 
- // Constructor
- public function __construct($nombre = null, $email = null,  $contrasena = null, $rol = 'usuario', $token_sesion = null)
- {
-     $this->nombre = $nombre;
-     $this->email = $email;
-     $this->contrasena = $contrasena;
-     $this->rol = $rol;
-     $this->token_sesion = $token_sesion;
- }
+    public function validatePasswordResetToken($token) {
+        $pdo = getConnection();
+    
+        $sql = "SELECT * FROM usuarios 
+                WHERE reset_token = :reset_token 
+                AND reset_token_expire > NOW()";
+        $stmt = $pdo->prepare($sql);
+    
+        $stmt->execute([
+            ':reset_token' => $token,
+        ]);
+    
+        return $stmt->fetch(PDO::FETCH_ASSOC); // Devuelve los datos del usuario si el token es válido
+    }
+    
+    
 
- // Getters y Setters
+    public function findUserByResetToken($token){
+        $pdo = getConnection();
+        $sql = "SELECT * FROM usuarios WHERE reset_token = :reset_token AND reset_token_expire > NOW() LIMIT 1";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':reset_token' => $token]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updatePassword($userId, $hashedPassword){
+        $pdo = getConnection();
+        $sql = "UPDATE usuarios SET contrasena = :contrasena WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':contrasena' => $hashedPassword, ':id' => $userId]);
+        return $stmt->rowCount() > 0;
+    }
+
+    public function deletePasswordResetToken($userId){
+        $pdo = getConnection();
+        $sql = "UPDATE usuarios SET reset_token = NULL, reset_token_expire = NULL WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':id' => $userId]);
+    }
+
+    
+
+ 
+ // Getters y Setters.....
 
  public function getNombre() { return $this->nombre; }
  public function setNombre($nombre) { $this->nombre = $nombre; }

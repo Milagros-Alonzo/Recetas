@@ -3,7 +3,7 @@
 
 
 // URL del archivo PHP que mantiene la sesión activa
-const mantenerSessionUrl = '<?php echo BASE_URL; ?>/helpers/sessionTimer.php';
+const mantenerSessionUrl = '<?php echo BASE_URL; ?>/include/session/sessionTimer.php';
 // Función para enviar solicitudes de actualización de sesión
 function MantenerSession() {
     fetch(mantenerSessionUrl, {
