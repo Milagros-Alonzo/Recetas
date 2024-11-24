@@ -23,7 +23,7 @@ class Recipe
         $this->imagen = $imagen;
     }
 
-    public static function getAll()
+    public static function getAllReceipes()
     {
         $pdo = getConnection();
         $stmt = $pdo->prepare("
@@ -85,6 +85,17 @@ class Recipe
 
         return $pdo->lastInsertId();
     }
+    
+    public static function countAllReceipes()
+    {
+        $pdo = getConnection();
+        $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM recetas");
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result['total'] ?? 0;
+    }
+
 
     public static function deleteById($id)
     {

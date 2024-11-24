@@ -134,9 +134,14 @@
                     $_SESSION['user'] = $user['id'];
                     $_SESSION['user_name'] = $user['nombre'];
                     $_SESSION['user_email'] = $user['email'];
-                    $_SESSION['es_admin'] = $user['rol'] ?? 'usuario';
+                    $_SESSION['user_role'] = $user['rol'] ?? 'usuario';
             
-                    return header("Location: " . BASE_URL . "/index.php");
+                    if ($user['rol'] === 'administrador') {
+                        header('Location: ' . BASE_URL . '/index.php?action=dashboard');
+                    } else {
+                        header('Location: ' . BASE_URL . '/index.php');
+                    }
+                    exit();
                 } else {
                     // Datos no válidos, obtener errores
                     $errors = $this->validator->getErrors();
