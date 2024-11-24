@@ -182,7 +182,7 @@ h2 {
     background-color: #f9f9f9;
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s, all 0.3s;
     text-align: start;
     font-size: 1.1em;
 }
@@ -218,7 +218,8 @@ h2 {
     padding-top: 10px;
 }
 
-.controller-container-receta #borrar-receta-user {
+.controller-container-receta #borrar-receta-user,
+.controller-container-receta #confirmar.borrar {
     background-color: rgba(168, 60, 60, 0.83);
 }
 
@@ -226,13 +227,93 @@ h2 {
     background-color: rgba(56, 74, 134, 0.896);
 }
 
-.controller-container-receta #actualizar-receta-user {
+.controller-container-receta #actualizar-receta-user,
+.controller-container-receta #confirmar.actualizar {
     background-color: rgba(75, 82, 105, 0.896);
 }
+
+.controller-container-receta #borrar-receta-user.disabled,
+.controller-container-receta #subir-receta-user.disabled,
+.controller-container-receta #actualizar-receta-user.disabled,
+.controller-container-receta #confirmar.disabled {
+    display: none;
+}
+
 
 .controller-container-receta button {
     color: white;
 }
+
+/**** estilo de list.php ****/
+/* Aplicar deshabilitado a todo el contenedor */
+.list-container.disabled {
+    position: relative;
+    pointer-events: none; /* Deshabilita la interacción global */
+    background-color: #6565655d; /* Gris muy claro */
+    color: #b0b0b0; /* Gris tenue para el texto */
+    border-color: #dcdcdc; /* Gris claro para bordes */
+}
+
+/* Excluir los elementos específicos del estilo deshabilitado */
+
+.list-container.disabled .receta-contenedor,
+.list-container.disabled button {
+    background-color: white;
+    pointer-events: all; /* Permitir interacción */
+    color: inherit; /* Heredar color */
+    border-color: inherit; /* Heredar bordes */
+    cursor: pointer; /* Mostrar el cursor clickeable en los botones */
+}
+.list-container.disabled .receta-contenedor {
+    border-radius: 10px;
+    transform: translateY(-70px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+
+}
+
+.list-container.disabled .receta-contenedor:hover {
+    border-radius: 10px;
+    transform: translateY(-10px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.list-container.disabled .receta-contenedor:not(:hover) {
+    opacity: 0.9; /* Efecto de atenuación */
+    transform: scale(0.98); /* Escala ligeramente */
+    transition: all 0.3s ease; /* Transición suave */
+}
+.list-container.disabled .receta-contenedor.unSelected {
+    border-radius: 10px;
+    transform: scale(0.90);
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.2);
+    background-color: #6565655d; 
+}
+
+/* Asegurarse de que los botones específicos sean interactivos */
+.list-container.disabled button {
+    pointer-events: auto; /* Habilitar interacción */
+    cursor: pointer;
+    background-color: #fff; /* Fondo blanco para botones */
+    color: #000; /* Color de texto negro */
+    border: 1px solid #ccc; /* Borde de botón */
+}
+
+/* Excluir específicamente elementos dentro de .search-box */
+.list-container.disabled .search-box * {
+    background-color: #6565651f;
+    color: #b0b0b0;
+    pointer-events: none; /* Deshabilitar interacción para hijos de .search-box */
+}
+
+/* Deshabilitar todos los demás elementos */
+.list-container.disabled > :not(.titulo-pagina):not(.search-box):not(.receta-contenedor *):not(button) {
+    pointer-events: none; /* Deshabilitar interacción */
+    background-color: #c8c7c7; /* Gris muy claro */
+    color: #b0b0b0; /* Gris tenue */
+    border-color: #dcdcdc;
+}
+
+
 
 /*
 *

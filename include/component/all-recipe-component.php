@@ -5,15 +5,15 @@ $recipeController = new RecipeController();
 
 if(isset($id) && $id != '') {
     $recetas = json_decode($recipeController->getRecipe($id));
+    $_SESSION['now_user_id'] = $recetas[0]->user_id;
 }else {
     $recetas = json_decode($recipeController->getAllRecipe());
 }
 ?>
-
 <?php if(isset($recetas)): ?>
     <?php foreach($recetas as $receta): ?>
 
-        <div class="receta-contenedor card" onclick="window.location.href='<?= BASE_URL . '/views/recipes/detail.php?id=' . $receta->id; ?>'">
+        <div class="receta-contenedor card" id="<?= $receta->id; ?>">
             <div class="titulo"><strong>Nombre: <?= $receta->titulo; ?></strong></div>
             <hr>
             <div class="imagen">
