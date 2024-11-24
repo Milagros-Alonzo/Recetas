@@ -17,7 +17,7 @@ CREATE TABLE usuarios (
   reset_token VARCHAR(255) DEFAULT NULL,
   reset_token_expire DATETIME DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) 
 
 -- --------------------------------------------------------
 
@@ -30,9 +30,10 @@ CREATE TABLE recetas (
   pasos text NOT NULL,
   tiempo varchar(50) NOT NULL,
   imagen varchar(255) DEFAULT NULL,
+  tipo_comida
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) 
 
 -- --------------------------------------------------------
 
@@ -58,9 +59,21 @@ CREATE TABLE ingredientes (
   ingrediente varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `receta_id` (`receta_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) 
 
 -- --------------------------------------------------------
+-- Crear tabla de soporte tecnico
+CREATE TABLE soporte (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_usuario VARCHAR(100) NOT NULL,
+    email_usuario VARCHAR(150) NOT NULL,
+    telefono_usuario VARCHAR(20) DEFAULT NULL,
+    mensaje TEXT NOT NULL,
+    comentario TEXT DEFAULT NULL,
+    estado ENUM('Pendiente', 'En Proceso', 'Resuelto') DEFAULT 'Pendiente',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
 
 
