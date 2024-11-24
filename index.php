@@ -11,6 +11,7 @@ if(isset($_SESSION['user'])) {
     SessionManager::checkSessionTimeout();
 }
 $mensaje = SessionManager::getMessage();
+
 ?>
 
 <div class="main-content">

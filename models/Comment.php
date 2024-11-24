@@ -102,6 +102,13 @@ class Comment
         return $stmt->execute(['user_id' => $user_id, 'receta_id' => $receta_id]);
     }
 
+    public function delete_Id($comment_id)
+    {
+        $pdo = getConnection();
+        $stmt = $pdo->prepare("DELETE FROM comentarios WHERE id = :id");
+        return $stmt->execute(['id' => $comment_id]);
+    }
+
 
     // Getters y Setters
 

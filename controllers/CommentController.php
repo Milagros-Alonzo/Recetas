@@ -149,12 +149,42 @@ class CommentController {
                 'int' => true,
             ],
         ];
-
+        
         if($this->validator->validate($data, $rules)){
             $receta_id = $data['receta_id']; 
             $user_id = $data['user_id'];
 
             $deleted = $this->commentModel->delete_Id_recetaId($user_id, $receta_id);
+
+            if($deleted) {
+                $_SESSION['mensaje'] = 'se elimino tu comentario correctamente';
+                return header("Location: " . BASE_URL . "/views/recipes/detail.php?id=" . $receta_id);
+            }
+        }else {
+            $errors = $this->validator->getErrors();
+            print_r($errors);
+        }
+
+    }
+
+    public function deleteComentarioById($data) {
+        $rules = [
+            'commentId' => [
+                'required' => true,
+                'int' => true,
+            ],            
+            'receta_id' => [
+                'required' => true,
+                'int' => true,
+            ],
+        ];
+        var_dump($data);
+        if($this->validator->validate($data, $rules)){
+            $comment_id = $data['commentId']; 
+            $receta_id = $data['receta_id'];
+
+
+            $deleted = $this->commentModel->delete_Id($comment_id);
 
             if($deleted) {
                 $_SESSION['mensaje'] = 'se elimino tu comentario correctamente';
@@ -218,6 +248,10 @@ class CommentController {
 
             if($_POST['action'] === 'borrarComentario') {
                 $controller->deleteComentario($_POST);
+            }
+
+            if($_POST['action'] === 'borrarComentarioAdmin') {
+                $controller->deleteComentarioById($_POST);
             }
         }
     }  

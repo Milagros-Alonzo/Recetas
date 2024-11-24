@@ -3,7 +3,17 @@
     <nav>
         <ul>
         <li><a href="<?php echo BASE_URL; ?>">Inicio</a></li>
-        <li><a href="<?php echo BASE_URL . '/views/recipes/list.php'; ?>">Ver Mis Receta</a></li>
+
+
+        <li><a href="<?php echo BASE_URL . '/views/recipes/list.php'; ?>">
+        <?php
+             if(isset($_SESSION['es_admin']) && $_SESSION['es_admin'] === 'administrador') {
+                 echo 'Editar Recetas'; 
+             } else {
+                echo 'Mis Recetas';
+             }
+        ?>
+        </a></li>
 
         <li><a href="<?php echo BASE_URL . '/views/recipes/add.php'; ?>">Agregar Receta</a></li>
 
