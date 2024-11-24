@@ -110,7 +110,9 @@ $mensaje = SessionManager::getMessage();
                 <div id="comentarios-lista-container">
                     <?php if (!empty($commentAll)): ?>
                         <?php foreach ($commentAll as $comment): ?>
-                            <?php if ($comment->user_id != isset($_SESSION['now_user_id']) ? $_SESSION['now_user_id'] :'') : ?>
+                            <?php 
+                                $nowUserId = isset($_SESSION['now_user_id']) ? $_SESSION['now_user_id'] : ''; 
+                                if ($comment->user_id != $nowUserId): ?>
                                 <form action="<?php echo BASE_URL . '/controllers/CommentController.php'; ?>" method="post" style="width: 100%; height: 100%;">
                                 <div class="comentario">
                                         <input type="hidden" name="commentId" value="<?php echo $comment->id; ?>">
