@@ -14,6 +14,8 @@ CREATE TABLE usuarios (
   rol enum('usuario','administrador') DEFAULT 'usuario',
   token_sesion varchar(255) DEFAULT NULL,
   fecha_registro timestamp NOT NULL DEFAULT current_timestamp(),
+  reset_token VARCHAR(255) DEFAULT NULL,
+  reset_token_expire DATETIME DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

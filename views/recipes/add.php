@@ -8,7 +8,7 @@ include BASE_PATH . '/include/session/SessionManager.php';
 
 SessionManager::startSession();
 SessionManager::requireAuth();
-if(isset($_SESSION['user'])) {
+if (isset($_SESSION['user'])) {
     SessionManager::checkSessionTimeout();
     if(isset($_SESSION['now_user_id']) && isset($_GET['getId'])) {
         if($_SESSION['user'] === $_SESSION['now_user_id']) {
@@ -38,6 +38,15 @@ $mensaje = SessionManager::getMessage();
                 <label for="titulo">Título</label>
                 <input type="text" id="titulo" name="titulo" maxlength="100" value="<?php echo htmlspecialchars($receta->titulo ?? ''); ?>" required>
                 <div class="error-message" id="tituloError"></div>
+            </div>
+            <div class="form-group">
+                <label for="tipo_comida">Tipo de comida</label>
+                <select id="tipo_comida" name="tipo_comida" required>
+                    <option value="Desayunos">Desayunos</option>
+                    <option value="Almuerzos" selected>Almuerzos</option>
+                    <option value="Cenas">Cenas</option>
+                </select>
+                <div class="error-message" id="tipoComidaError"></div>
             </div>
             <div class="form-group">
                 <label for="descripcion">Descripción</label>
@@ -90,99 +99,103 @@ $mensaje = SessionManager::getMessage();
 </div>
 
 
+
     <script>
+
 
     mensaje = <?php echo json_encode($mensaje); ?>;
     console.log(mensaje);
-    if(mensaje) {
+    if (mensaje) {
         alert(mensaje)
         <?php
-            $_SESSION['mensaje'] = '';
+        $_SESSION['mensaje'] = '';
         ?>
     }
 
-        // Validación sencilla con JavaScript
-        document.getElementById('recipeForm').addEventListener('submit', function (event) {
-            let isValid = true;
+    // Validación sencilla con JavaScript
+    document.getElementById('recipeForm').addEventListener('submit', function(event) {
+        let isValid = true;
 
-            // Limpia mensajes previos
-            document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+        // Limpia mensajes previos
+        document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
 
-            // Validación personalizada para campos requeridos
-            const fields = ['id', 'user_id', 'titulo', 'descripcion', 'tiempo', 'ingredientes', 'imagen'];
-            fields.forEach(field => {
-                const input = document.getElementById(field);
-                if (!input.value) {
-                    document.getElementById(`${field}Error`).textContent = 'Este campo es obligatorio.';
-                    isValid = false;
-                }
-            });
+        // Validación personalizada para campos requeridos
+        // Lista de campos a validar
+        const fields = ['titulo', 'descripcion', 'pasos', 'tiempo', 'tipo_comida', 'imagen'];
 
-            if (!isValid) {
-                event.preventDefault();
+        fields.forEach(field => {
+            const input = document.getElementById(field);
+            if (!input.value) {
+                document.getElementById(`${field}Error`).textContent = 'Este campo es obligatorio.';
+                isValid = false;
             }
         });
 
-        const inputImagen = document.getElementById('imagen');
-        const vistaPrevia = document.getElementById('imagenPreview');
-
-        // Escuchar cambios en el input file
-        inputImagen.addEventListener('change', function(event) {
-            const archivo = event.target.files[0];
-
-            if (archivo) {
-                const lector = new FileReader();
-
-                // Cuando la lectura esté completa, mostrar la imagen
-                lector.onload = function(e) {
-                    vistaPrevia.src = e.target.result;
-                    vistaPrevia.style.display = 'block'; // Mostrar la imagen
-                };
-
-                lector.readAsDataURL(archivo); // Leer el archivo como DataURL
-            } else {
-                vistaPrevia.src = '';
-                vistaPrevia.style.display = 'none'; // Ocultar la imagen
-            }
-        });
-
-        const ingredientes = document.getElementById('checkboxGroup');
-        const inputIngrediente = document.getElementById('newIngredient');
-
-        function AgregarIngredientes() {
-            const ingredientesContainer = document.createElement('div');
-            ingredientesContainer.className = 'checkbox-item';
-
-            const input = document.createElement('input');
-
-            input.readOnly = true;
-            input.type = 'text';
-            input.classList.add('input-ingrediente')
-            input.name = 'ingrediente[]';
-            input.value = inputIngrediente.value
-
-            const deleteButton = document.createElement('button');
-            deleteButton.type = 'button';
-            deleteButton.textContent = 'Eliminar';
-            deleteButton.className = 'delete-btn';
-
-            deleteButton.addEventListener('click', () => {
-                if (confirm('deseas eleminar este ingrediente?')) {
-                    ingredientes.removeChild(ingredientesContainer);
-                }
-            });
-
-            ingredientesContainer.appendChild(input);
-            ingredientesContainer.appendChild(deleteButton);
-
-            ingredientes.appendChild(ingredientesContainer);
-
-            inputIngrediente.value = '';
+        if (!isValid) {
+            event.preventDefault();
         }
-    </script>
+    });
+
+    const inputImagen = document.getElementById('imagen');
+    const vistaPrevia = document.getElementById('imagenPreview');
+
+    // Escuchar cambios en el input file
+    inputImagen.addEventListener('change', function(event) {
+        const archivo = event.target.files[0];
+
+        if (archivo) {
+            const lector = new FileReader();
+
+            // Cuando la lectura esté completa, mostrar la imagen
+            lector.onload = function(e) {
+                vistaPrevia.src = e.target.result;
+                vistaPrevia.style.display = 'block'; // Mostrar la imagen
+            };
+
+            lector.readAsDataURL(archivo); // Leer el archivo como DataURL
+        } else {
+            vistaPrevia.src = '';
+            vistaPrevia.style.display = 'none'; // Ocultar la imagen
+        }
+    });
+
+    const ingredientes = document.getElementById('checkboxGroup');
+    const inputIngrediente = document.getElementById('newIngredient');
+
+    function AgregarIngredientes() {
+        const ingredientesContainer = document.createElement('div');
+        ingredientesContainer.className = 'checkbox-item';
+
+        const input = document.createElement('input');
+
+        input.readOnly = true;
+        input.type = 'text';
+        input.classList.add('input-ingrediente')
+        input.name = 'ingrediente[]';
+        input.value = inputIngrediente.value
+
+        const deleteButton = document.createElement('button');
+        deleteButton.type = 'button';
+        deleteButton.textContent = 'Eliminar';
+        deleteButton.className = 'delete-btn';
+
+        deleteButton.addEventListener('click', () => {
+            if (confirm('deseas eleminar este ingrediente?')) {
+                ingredientes.removeChild(ingredientesContainer);
+            }
+        });
+
+        ingredientesContainer.appendChild(input);
+        ingredientesContainer.appendChild(deleteButton);
+
+        ingredientes.appendChild(ingredientesContainer);
+
+        inputIngrediente.value = '';
+    }
+</script>
 
 <?php
- //incluye el script para la actualizacion de la session y que se mantenga abierta
+//incluye el script para la actualizacion de la session y que se mantenga abierta
 include BASE_PATH . '/public/js/sessionScript.php';
 $content = ob_get_clean(); // Guarda el contenido en $content del html
 include BASE_PATH . '/views/layout.php'; // Incluye la plantilla principal
