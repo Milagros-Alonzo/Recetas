@@ -121,7 +121,7 @@ $mensaje = SessionManager::getMessage();
 
         // Validación personalizada para campos requeridos
         // Lista de campos a validar
-        const fields = ['titulo', 'descripcion', 'pasos', 'tiempo', 'tipo_comida', 'imagen'];
+        const fields = ['titulo', 'descripcion', 'pasos', 'tiempo', 'tipo_comida'];
 
         fields.forEach(field => {
             const input = document.getElementById(field);
