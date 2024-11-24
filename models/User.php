@@ -26,24 +26,6 @@ class user {
     *las consultas a base de datos
     *
     */
-    public static function getAllUsers() { 
-        $pdo = getConnection();
-        $sql = "SELECT id, nombre, email, rol, fecha_registro FROM usuarios";
-        $stmt = $pdo->query($sql);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    // Método para contar todos los usuarios
-    public static function countAllUsers()
-    {
-        $pdo = getConnection();
-        $sql = "SELECT COUNT(*) AS total FROM usuarios";
-        $stmt = $pdo->query($sql);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $result['total'] ?? 0;
-    }
-
     public function insertUser(){
         $pdo = getConnection();
 

@@ -1,38 +1,16 @@
 <?php
 require_once __DIR__ . '/config/config.php';
-require_once __DIR__ . '/controllers/adminController.php';
-require_once __DIR__ . '/controllers/authController.php';
-require_once __DIR__ . '/include/session/SessionManager.php';
+$title = "Página de Recetas";
+ob_start(); // Inicia el almacenamiento en búfer de salida
 
+include BASE_PATH . '/include/session/SessionManager.php';
 
-// Inicia sesión si no está activa
-if (session_status() === PHP_SESSION_NONE) {
-    SessionManager::startSession();
+SessionManager::startSession();
+
+if(isset($_SESSION['user'])) {
+    SessionManager::checkSessionTimeout();
 }
-// Determina la acción a ejecutar
-$action = $_GET['action'] ?? 'home';
-
-switch ($action) {
-    case 'home': // Página principal de recetas
-        $title = "Página de Recetas";
-        ob_start();
-        include BASE_PATH . '/views/recipes/list.php';
-        $content = ob_get_clean();
-        break;
-
-    case 'dashboard': // Panel de administración
-        $controller = new AdminController();
-        $controller->dashboard();
-        exit();
-
-    default: // Página no encontrada
-        http_response_code(404);
-        $title = "Página no encontrada";
-        ob_start();
-        echo "<h1>404 - Página no encontrada</h1>";
-        $content = ob_get_clean();
-        break;
-}
+$mensaje = SessionManager::getMessage();
 ?>
 
 <div class="main-content">
