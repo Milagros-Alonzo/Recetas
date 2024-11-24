@@ -9,6 +9,8 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh; /* Altura mínima de la pantalla */
+    height: 100%;
+
 }
 
 button {
@@ -66,16 +68,23 @@ nav a:hover {
 
 .parent-container {
     display: flex;
-    flex: 1;
+    flex: 1; /* Permite que este contenedor ocupe todo el espacio disponible */
     width: 100%;
-    height: 100%;
+    height: 100%; /* Asegura que tome el 100% de la altura del padre */
     justify-content: center;
     align-items: center;
 }
-.main-content {
-    width: 100%;
+
+.list-container {
+    width: 100;
     height: 100%;
-    min-height: 80svh;
+    min-height: 87svh;
+}
+
+.main-content {
+    width: 100%; 
+    height: 100%; 
+    min-height: 87svh;
 }
 
 .container-login {
@@ -212,11 +221,21 @@ h2 {
 }
 
 .controller-container-receta {
+    position: sticky;
+    top: 0;
+    z-index: 1010;
     display: flex;
     justify-content: center;
     gap: 20px;
-    padding-top: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #c6c4c4;
 }
+
+.container-titulo {
+    background-color: #c6c4c4;
+}
+
 
 .controller-container-receta #borrar-receta-user,
 .controller-container-receta #confirmar.borrar {
@@ -235,7 +254,8 @@ h2 {
 .controller-container-receta #borrar-receta-user.disabled,
 .controller-container-receta #subir-receta-user.disabled,
 .controller-container-receta #actualizar-receta-user.disabled,
-.controller-container-receta #confirmar.disabled {
+.controller-container-receta #confirmar.disabled,
+.controller-container-receta #cancelar.disabled {
     display: none;
 }
 
@@ -243,6 +263,15 @@ h2 {
 .controller-container-receta button {
     color: white;
 }
+
+.list-container,
+#form-control-receta {
+    width: 100%;
+    height: 100%;
+
+}
+
+
 
 /**** estilo de list.php ****/
 /* Aplicar deshabilitado a todo el contenedor */
@@ -399,7 +428,7 @@ h2 {
     font-weight: bold;
     outline: none !important;
     cursor: pointer;
-    border-radius: 50%;
+    border-radius: 50% !important;
     position: absolute;
     right: 0px;
     color:#000000 ;
@@ -582,6 +611,31 @@ h2 {
 }
 
 
+#recipeForm select {
+    width: 100%; /* Toma todo el ancho disponible */
+    padding: 10px; /* Espaciado interno */
+    margin: 10px 0; /* Separación con otros elementos */
+    font-size: 16px; /* Tamaño del texto */
+    border: 1px solid #ccc; /* Borde suave */
+    border-radius: 5px; /* Bordes redondeados */
+    background-color: #f9f9f9; /* Fondo claro */
+    color: #333; /* Color del texto */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    appearance: none; /* Quita el estilo predeterminado */
+    -webkit-appearance: none; /* Para navegadores basados en WebKit */
+    -moz-appearance: none; /* Para navegadores basados en Gecko */
+    cursor: pointer; /* Muestra un puntero cuando pasas el ratón */
+    transition: all 0.3s ease; /* Transiciones suaves para hover */
+}
+
+/* Hover y focus para una mejor experiencia de usuario */
+#recipeForm select:hover,
+#recipeForm select:focus {
+    border-color: #999; /* Cambia el borde al pasar el ratón o enfocar */
+    background-color: #fff; /* Fondo más claro */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más prominente */
+    outline: none; /* Elimina el contorno predeterminado */
+}
 
 
 

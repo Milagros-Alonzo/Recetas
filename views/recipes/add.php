@@ -99,12 +99,8 @@ $mensaje = SessionManager::getMessage();
 </div>
 
 
-<<<<<<<<< Temporary merge branch 1
 <script>
-=========
-    <script>
 
->>>>>>>>> Temporary merge branch 2
     mensaje = <?php echo json_encode($mensaje); ?>;
     console.log(mensaje);
     if (mensaje) {

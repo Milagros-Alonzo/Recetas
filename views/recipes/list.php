@@ -63,9 +63,14 @@ $mensaje = SessionManager::getMessage();
                     type="button" 
                     id="confirmar" 
                     class="ov-btn-grow-skew-reverse disabled"
-                    name="action" 
-                    value="subir-receta-user"
                 >Confirmar
+                </button>
+
+                <button 
+                    type="button" 
+                    id="cancelar" 
+                    class="ov-btn-grow-skew-reverse disabled"
+                >Cancelar
                 </button>
             </div>     
             <div class="container-receta">
@@ -87,7 +92,7 @@ $mensaje = SessionManager::getMessage();
         const containerRecipe = document.querySelector('.list-container');
         const cards = document.querySelectorAll('.receta-contenedor');
         const inputValue = document.getElementById('valorFinal');
-
+        const cancelar = document.getElementById('cancelar');
         const form = document.getElementById('form-control-receta');
 
         [deleteBtn, updateBtn].forEach(btn => {
@@ -103,6 +108,8 @@ $mensaje = SessionManager::getMessage();
                 confirm.innerHTML = "Confrimar, " + name;
                 confirm.classList.add(id);
                 confirm.classList.remove('disabled');
+                cancelar.classList.remove('disabled');
+
                 // Agregar el listener para seleccionar cards
                 cards.forEach(card => {
                     card.addEventListener('click', event => {
@@ -133,6 +140,22 @@ $mensaje = SessionManager::getMessage();
             }
 
             confirm.className = 'ov-btn-grow-skew-reverse disabled';
+
+            // Eliminar los listeners de las tarjetas
+            cards.forEach(card => {
+                card.removeEventListener('click', selectCard);
+            });
+        });
+
+        cancelar.addEventListener('click', event => {
+            event.preventDefault();
+            deleteBtn.classList.remove('disabled');
+            updateBtn.classList.remove('disabled');
+            addBtn.classList.remove('disabled');
+            containerRecipe.classList.remove('disabled');
+
+            confirm.className = 'ov-btn-grow-skew-reverse disabled';
+            cancelar.className = 'ov-btn-grow-skew-reverse disabled';
 
             // Eliminar los listeners de las tarjetas
             cards.forEach(card => {
