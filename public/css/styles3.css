@@ -205,6 +205,9 @@ h2 {
     text-align: center;
 }
 
+.card.hidden {
+    display: none;
+}
 
 .imagen{
     width: 100%;
