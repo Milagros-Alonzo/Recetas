@@ -219,14 +219,14 @@
                 $mail->isSMTP();
                 $mail->Host = 'smtp.gmail.com'; // Cambia esto a tu servidor SMTP
                 $mail->SMTPAuth = true;
-                $mail->Username = 'alonzomilagros24@gmail.com'; // Cambia esto
-                $mail->Password = 'csnw ufxs sswt hbor'; // Cambia esto
+                $mail->Username = ''; // Cambia esto
+                $mail->Password = ''; // Cambia esto
                 $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
                 $mail->Port = 587;
     
 
                 // Configuración del correo
-                $mail->setFrom('alonzomilagros24@gmail.com', 'Recetas Web');
+                $mail->setFrom('', 'Recetas Web');
                 $mail->addAddress($email);
                 $mail->CharSet = 'UTF-8'; // Establece la codificación UTF-8
                 $mail->isHTML(true); // Activa el uso de HTML en el cuerpo del correo
