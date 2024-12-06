@@ -78,7 +78,11 @@ El objetivo principal es proporcionar una plataforma donde los usuarios puedan:
    ```bash
    cp .env.example .env
 
-5. Configura tus variables de entorno en el archivo .env:
+5. Instala las dependencias de PHP con Composer:
+   ```bash
+   composer updaate
+   
+6. Configura tus variables de entorno en el archivo .env:
 - Define el nombre de la base de datos, usuario, contraseña, etc.
 
 ---
