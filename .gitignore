@@ -1,7 +1,4 @@
 #Ignorar el .env
-<<<<<<< Updated upstream
-.env
-=======
 .env
 
 #ignorar el archivo vendor
@@ -19,4 +16,3 @@
 
 # Excepción: mantener la imagen predeterminada
 !default.webp
->>>>>>> Stashed changes
