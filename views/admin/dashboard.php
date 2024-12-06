@@ -38,11 +38,11 @@ $usuarios = json_decode($adminController->getAllUsers());
                             <td>
                                 <form action="<?= BASE_URL ?>/controllers/AdminController.php" method="POST" style="display:inline;">
                                     <input type="hidden" name="id" value="<?= $usuario->id; ?>">
-                                    <button type="submit" name="action" value="editarUsuario">Editar</button>
+                                    <button type="submit" name="action" value="updateUser">Editar</button>
                                 </form>
                                 <form action="<?= BASE_URL ?>/controllers/AdminController.php" method="POST" style="display:inline;">
                                     <input type="hidden" name="id" value="<?= $usuario->id; ?>">
-                                    <button type="submit" name="action" value="borrarUsuario" onclick="return confirm('¿Estás seguro de eliminar este usuario?');">Borrar</button>
+                                    <button type="submit" name="action" value="deleteUser" onclick="return confirm('¿Estás seguro de eliminar este usuario?');">Borrar</button>
                                 </form>
                             </td>
                         </tr>

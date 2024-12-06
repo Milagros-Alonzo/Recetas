@@ -11,7 +11,7 @@ SessionManager::requireAuth();
 if (isset($_SESSION['user'])) {
     SessionManager::checkSessionTimeout();
     if(isset($_SESSION['now_user_id']) && isset($_GET['getId'])) {
-        if($_SESSION['user'] === $_SESSION['now_user_id']) {
+        if($_SESSION['user'] === $_SESSION['now_user_id'] or $_SESSION['es_admin'] === 'administrador') {
             include BASE_PATH . '/controllers/RecipeController.php';
             $recipeController = new RecipeController();
             $recetas = json_decode($recipeController->getRecipeDetail([ 'recipe_id' => $_GET['getId'] ]));
@@ -117,6 +117,21 @@ $mensaje = SessionManager::getMessage();
         $_SESSION['mensaje'] = '';
         ?>
     }
+
+    window.addEventListener('DOMContentLoaded', function () {
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput) {
+                fileInput.value = ''; // Limpia el valor del input
+            }
+        });
+
+    const image =document.getElementById('imagen');
+    image.addEventListener('change', function(){ 
+        if(image.files[0]['size'] >  30 * 1024 * 1024) { // 30 mb
+            alert('imagen demasiado grande, solo se aceptan menor de 30 mb');
+            image.value = '';
+        }
+    });
 
     // Validación sencilla con JavaScript
     document.getElementById('recipeForm').addEventListener('submit', function(event) {

@@ -155,32 +155,6 @@ class Validator
         return false;
     }
 
-    // Validar y cargar imagen
-    public function uploadImage($file, $uploadDir)
-    {
-        // Verificar errores
-        if ($file['error'] !== UPLOAD_ERR_OK) {
-            throw new Exception('Error al subir la imagen.');
-        }
-
-        // Verificar tipo de archivo
-        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-        if (!in_array($file['type'], $allowedTypes)) {
-            throw new Exception('El tipo de archivo no es válido.');
-        }
-
-        // Generar nombre único para la imagen
-        $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-        $uniqueName = uniqid('img_', true) . '.' . $extension;
-
-        // Mover la imagen al directorio de destino
-        $uploadPath = $uploadDir . $uniqueName;
-        if (!move_uploaded_file($file['tmp_name'], $uploadPath)) {
-            throw new Exception('No se pudo guardar la imagen.');
-        }
-
-        return $uniqueName;
-    }
 
 
     /*

@@ -82,7 +82,7 @@ class AdminController
                 $id = $data['id'];
 
                 $deleted = $this->userModel->deleteUser($id);
-
+                var_dump($deleted);
                 if ($deleted) {
                     return json_encode(['message' => 'Usuario eliminado exitosamente']);
                 } else {    
@@ -108,16 +108,16 @@ class AdminController
 }
 
 $controller = new AdminController();
-
 // Procesar solicitudes POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action'])) {
+        echo 'hola';
         if ($_POST['action'] === 'createUser') {
             echo $controller->createUser($_POST);
         } elseif ($_POST['action'] === 'updateUser') {
             echo $controller->updateUser($_POST);
         } elseif ($_POST['action'] === 'deleteUser') {
-            echo $controller->deleteUser($_POST);
+            $controller->deleteUser($_POST);
         }
     }
 }
