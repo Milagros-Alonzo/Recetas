@@ -47,7 +47,7 @@ $mensaje = SessionManager::getMessage();
                         <div class="imagen">
                             <img 
                                 class="img-index" 
-                                src="<?= BASE_URL; ?>/public/img/<?= $receta->imagen ?? 'default.png' ?>" 
+                                src="<?= BASE_URL; ?>/public/img/<?= $receta->imagen ?? 'default.webp' ?>" 
                                 alt="Receta <?= htmlspecialchars($receta->titulo ?? 'Sin título') ?>">
                         </div>
                         <p><strong>Tiempo de preparación:</strong> <?= $receta->tiempo ?? 'No especificado' ?></p>
@@ -67,7 +67,7 @@ $mensaje = SessionManager::getMessage();
                 <div class="tuComentario-container">
                     <form id="subir-comentario" action="<?php echo BASE_URL . '/controllers/CommentController.php'; ?>" method="post" enctype="multipart/form-data">
                         <div class="imagen-perfil-container">
-                        <img src="<?php echo BASE_URL . '/public/img/' . (isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : ''); ?>" alt="tu perfil" class="imagen-perfil">
+                        <img src="<?php echo BASE_URL . '/public/img/' . (isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'default.webp'); ?>" alt="tu perfil" class="imagen-perfil">
                         </div>
                         <div class="input-area">
                             <div class="textarea-container">
@@ -120,7 +120,7 @@ $mensaje = SessionManager::getMessage();
 
                                         <div class="imagen-perfil-container"> 
                                             <img 
-                                            src="<?= BASE_URL; ?>/public/img/<?= $comment->imagen_perfil ?? 'default.png'; ?>" 
+                                            src="<?= BASE_URL; ?>/public/img/<?= $comment->imagen_perfil ?? 'default.webp'; ?>" 
                                             class="imagen-perfil"
                                             >
                                         </div>

@@ -1,2 +1,22 @@
 #Ignorar el .env
+<<<<<<< Updated upstream
 .env
+=======
+.env
+
+#ignorar el archivo vendor
+/vendor
+
+#ignorar todas las imagenes excepto default
+# Ignorar todas las imágenes
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.svg
+*.webp
+
+# Excepción: mantener la imagen predeterminada
+!default.webp
+>>>>>>> Stashed changes

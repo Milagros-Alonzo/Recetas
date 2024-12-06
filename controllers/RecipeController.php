@@ -5,6 +5,7 @@ require_once __DIR__ . '/../models/Comment.php';
 
 
 require_once __DIR__ . '/../helpers/Validator.php';
+require_once __DIR__ . '/../helpers/ImgConverter.php';
 require_once __DIR__ . '/../config/config.php';
 
 
@@ -14,6 +15,7 @@ class RecipeController
     private $ingredientModel;
     private $commentModel;
     private $validator;
+    private $converter;
 
     public function __construct()
     {
@@ -21,6 +23,7 @@ class RecipeController
         $this->ingredientModel = new Ingredient();
         $this->commentModel = new Comment();
         $this->validator = new Validator(); // Instancia del helper
+        $this->converter = new ImgConverter(80);
     }
 
     public function guardarReceta($data, $file)
@@ -87,8 +90,28 @@ class RecipeController
                 // Subir imagen (si existe)
                 $uniqueName = null;
                 if (!empty($imagen['tmp_name'])) {
-                    $uniqueName = $this->validator->uploadImage($imagen, $_SERVER['DOCUMENT_ROOT'] . '/PROYECTO_FINAL/Recetas/public/img/');
+                    try {
+                            // Crear una instancia de la clase con calidad personalizada (80%)
+                            $converter = new ImgConverter(80);
+
+                            // Ruta de entrada y salida
+                            $uploadedFile = $_FILES['imagen']['tmp_name'];
+
+
+                            // Convertir la imagen
+                            $webpData = $converter->convertToWebp($uploadedFile);
+
+                            if($webpData) {
+                                $uniqueName = $this->converter->uploadImage($imagen, $_SERVER['DOCUMENT_ROOT'] . BASE_URL . '/public/img/');
+                            }
+                    } catch (Exception $e) {
+                            // Manejar errores y redirigir con un mensaje
+                            $_SESSION['mensaje'] = $e->getMessage();
+                            header("Location: " . BASE_URL . "/views/recipes/add.php");
+                            exit;
+                    }
                 }
+    
 
 
                 //instancasr recetas y guardar la base de datos
@@ -116,7 +139,7 @@ class RecipeController
 
     
                     $_SESSION['mensaje'] = 'se insertaron correctamente los datos';
-                    return header("Location: " . BASE_URL . "/index.php");
+                    return header("Location: " . BASE_URL . "/views/recipes/list.php");
                 }else {
                     $errors = $this->validator->getErrors();
                     var_dump($errors);
@@ -207,27 +230,35 @@ class RecipeController
                     
                     // Validar que existe una imagen actual
                     if(!empty(!empty($file['imagen']['name']))) {
-                        if (!empty($recipeImg[0]['imagen'])) {
-                            $currentImage = $recipeImg[0]['imagen'];
-                        
-                            // Verificar si el archivo de la imagen existe en el servidor
-                            $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/PROYECTO_FINAL/Recetas/public/img/' . $currentImage;
-                        
-                            if (file_exists($imagePath)) {
-                                // Eliminar la imagen existente
-                                unlink($imagePath);
-                                echo "Imagen eliminada: $imagePath"; // Mensaje de depuración
-                            } else {
-                                echo "La imagen no existe: $imagePath"; // Mensaje de depuración
-                            }
-                        } else {
-                            echo "No hay imagen para eliminar."; // Mensaje de depuración
-                        }
-                        
+
                         // Manejar la nueva imagen
                         if (!empty($imagen['tmp_name'])) {
-                            $uniqueName = $this->validator->uploadImage($imagen, $_SERVER['DOCUMENT_ROOT'] . '/PROYECTO_FINAL/Recetas/public/img/');
-                            echo "Nueva imagen cargada: $uniqueName"; // Mensaje de depuración
+                            try {
+                                $uniqueName = $this->converter->uploadImage($imagen, $_SERVER['DOCUMENT_ROOT'] . BASE_URL . '/public/img/');
+
+                                //ELIMINAR el archivo anterior
+                                if (!empty($recipeImg[0]['imagen'])) {
+                                    $currentImage = $recipeImg[0]['imagen'];
+                                
+                                    // Verificar si el archivo de la imagen existe en el servidor
+                                    $imagePath = $_SERVER['DOCUMENT_ROOT'] . BASE_URL . '/public/img/' . $currentImage;
+                                
+                                    if (file_exists($imagePath)) {
+                                        // Eliminar la imagen existente
+                                        unlink($imagePath);
+                                        echo "Imagen eliminada: $imagePath"; // Mensaje de depuración
+                                    } else {
+                                        echo "La imagen no existe: $imagePath"; // Mensaje de depuración
+                                    }
+                                } else {
+                                    echo "No hay imagen para eliminar."; // Mensaje de depuración
+                                }
+                            } catch (Exception $e) {
+                                    // Manejar errores y redirigir con un mensaje
+                                    $_SESSION['mensaje'] = $e->getMessage();
+                                    header("Location: " . BASE_URL . "/views/recipes/add.php");
+                                    exit;
+                            }
                         } else {
                             echo "No se cargó ninguna nueva imagen."; // Mensaje de depuración
                         }
@@ -281,7 +312,7 @@ class RecipeController
         
                     // Redirigir con un mensaje de éxito
                     $_SESSION['mensaje'] = 'Receta actualizada correctamente';
-                    return header("Location: " . BASE_URL . "/index.php");
+                    return header("Location: " . BASE_URL . "/views/recipes/list.php");
                 } else {
                     // Manejar errores de validación
                     $errors = $this->validator->getErrors();
@@ -307,17 +338,18 @@ class RecipeController
                     $currentImage = $recipeImg[0]['imagen'];
                 
                     // Verificar si el archivo de la imagen existe en el servidor
-                    $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/PROYECTO_FINAL/Recetas/public/img/' . $currentImage;
+                    $imagePath = $_SERVER['DOCUMENT_ROOT'] . BASE_URL . 'public/img/' . $currentImage;
                 
                     if (file_exists($imagePath)) {
                         // Eliminar la imagen existente
                         unlink($imagePath);
                         echo "Imagen eliminada: $imagePath"; // Mensaje de depuración
                     } else {
-                        echo "La imagen no existe: $imagePath"; // Mensaje de depuración
+                        throw new Exception("La imagen no existe en el servidor" . $imagePath);
                     }
                 } else {
-                    echo "No hay imagen para eliminar."; // Mensaje de depuración
+                    throw new Exception("no hay imagen para borrar");
+
                 }
 
                 
@@ -326,11 +358,11 @@ class RecipeController
                 //$this->ingredientModel->deleteById($id);
                 
                 $_SESSION['mensaje'] = 'Receta actualizada correctamente';
-                return header("Location: " . BASE_URL . "/index.php");
+                return header("Location: " . BASE_URL . "/views/recipes/list.php");
             } catch (Exception $e) {
                 // Manejar errores generales y redirigir con un mensaje
                 $_SESSION['mensaje'] = $e->getMessage();
-                return header("Location: " . BASE_URL . "/index.php");
+                return header("Location: " . BASE_URL . "/views/recipes/list.php");
             }
         }
         
