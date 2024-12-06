@@ -10,6 +10,7 @@ El objetivo principal es proporcionar una plataforma donde los usuarios puedan:
 - Comentar y valorar las recetas publicadas.
 - Administrar usuarios, comentarios y recetas mediante un panel de administración.
 
+![home](https://github.com/hiryonz/Recetas/blob/7d107681ebcb4ba632d6e1c4dca33ba1d5638b53/img_readme/home.png)
 ---
 
 ## Características
@@ -107,7 +108,20 @@ El objetivo principal es proporcionar una plataforma donde los usuarios puedan:
 
 ---
 
+## Imagenes del sistema
+
+#### Login
+![login](https://github.com/hiryonz/Recetas/blob/7d107681ebcb4ba632d6e1c4dca33ba1d5638b53/img_readme/login.png)
+
+#### Detalles de una receta
+![detail](https://github.com/hiryonz/Recetas/blob/7d107681ebcb4ba632d6e1c4dca33ba1d5638b53/img_readme/detail.png)
+
+#### comentarios de las recetas
+![comment](https://github.com/hiryonz/Recetas/blob/7d107681ebcb4ba632d6e1c4dca33ba1d5638b53/img_readme/comentarios.png)
+
+
 ---
+<br>
 
 ## Contribuciones
 ¡Las contribuciones son bienvenidas! Sigue estos pasos para contribuir:
