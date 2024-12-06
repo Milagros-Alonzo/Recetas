@@ -1,2 +1,5 @@
 #Ignorar el .env
 .env
+
+#ignorar el archivo vendor
+/vendor
