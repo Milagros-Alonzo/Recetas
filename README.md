@@ -1,7 +1,7 @@
 # Página Web de Recetas
 
-## Descripción del Proyecto
 
+## Descripción
 Este proyecto consiste en una página web diseñada para compartir y buscar recetas de cocina. Fue desarrollado utilizando PHP y MySQL como tecnologías principales, sin el uso de frameworks. 
 
 El objetivo principal es proporcionar una plataforma donde los usuarios puedan:
@@ -61,31 +61,25 @@ El objetivo principal es proporcionar una plataforma donde los usuarios puedan:
 ### Pasos de instalación:
 1. Clonar el repositorio:
    ```bash
-   git clone https://github.com/colocas_tu_username/recetas.git
+   https://github.com/hiryonz/Recetas.git
    
 
 2. Colocar el proyecto en el directorio raíz del servidor local:
     ```bash
-    mv recetas C:/laragon/www/PROYECTO_FINAL/Recetas
+    cd tu_proyecto
 
 3. Importar la base de datos:
 
     - Abre phpMyAdmin o tu herramienta favorita de gestión de bases de datos.
     - Crea una base de datos llamada recetas.
     - Importa el archivo Database/Database.sql.
+   
+4. Copia el archivo .env.example como .env:
+   ```bash
+   cp .env.example .env
 
-4. Configurar el archivo config.php:
-
-Ajusta las credenciales de la base de datos:
-
-    define('DB_HOST', 'localhost');
-    define('DB_USER', 'recetas');
-    define('DB_PASSWORD', 'recetas');
-    define('DB_NAME', 'recetas_web');
-
-5. Inicia Laragon y accede al proyecto:
-    ```bash
-    http://localhost/PROYECTO_FINAL/Recetas
+5. Configura tus variables de entorno en el archivo .env:
+- Define el nombre de la base de datos, usuario, contraseña, etc.
 
 ---
 
@@ -109,21 +103,38 @@ Ajusta las credenciales de la base de datos:
 
 ---
 
-## Contribuciones
-### Si deseas contribuir a este proyecto:
-
-1. Haz un fork del repositorio.
-2. Crea una nueva rama para tu funcionalidad:
-
-    ```bash
-    git checkout -b feature/nueva-funcionalidad
-
-3. Realiza un pull request explicando tus cambios.
-
 ---
 
-## Autores
-### Milagros Alonzo
-### Kenneth Pardo
+## Contribuciones
+¡Las contribuciones son bienvenidas! Sigue estos pasos para contribuir:
+
+1. Haz fork del proyecto.
+2. Crea una rama para tu funcionalidad
+   ``` bash
+   git checkout -b feature/nueva-funcionalidad
+3. Haz el commit
+   ``` bash
+   git commit -m "Agrega una nueva funcionalidad"
+4. Haz push a la rama:
+   ``` bash
+   git push origin feature/nueva-funcionalidad
+5. Crea un Pull Request.
+
+
+
+## Licencia
+este proyecto fue desarrollado por Javier Chong y Milagros Alonzo.
+
+
+## Contacto
+
+Si tienes preguntas, sugerencias o necesitas ayuda, no dudes en ponerte en contacto:
+
+- **Nombre:** [Javier Chong]
+- **Email:** [hiryonz024@gmail.com](mailto:hiryonz024@gmail.com)
+- **GitHub:** [@hiryonz](https://github.com/hiryonz)
+- **LinkedIn**: [linkedin.com/javier-chong](https://www.linkedin.com/in/javier-chong-98a73b277/)
+
+¡Espero tus comentarios!
 
 
